@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook, faInstagram, faTwitter, faYoutube } from "@fortawesome/free-brands-svg-icons";
 const Footer_links: React.FC = () => {
     return (
-        <div className="md:-mt-12 sm:-mt-30 -mt-32 grid grid-cols-6 gap-4 items-start pb-8 justify-between">
+        <div className="grid grid-cols-6 gap-4 items-start pb-8 justify-between">
             <div className="flex flex-col gap-2 md:col-span-2 sm:col-span-6 col-span-6">
                 <h2 className="font-header font-bold uppercase text-2xl">Shop.co</h2>
                 <p className="text-[12px] text-gray-500">Lorem ipsum dolor sit amet, consectetur adipiscing elit.

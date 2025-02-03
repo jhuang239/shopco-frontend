@@ -5,7 +5,6 @@ import Subscribution_Box from "./Subscribution_Box";
 const Footer: React.FC = () => {
     return (
         <footer className="bg-stone-100 relative sm:px-0 px-4">
-            <Subscribution_Box />
             <Footer_links />
             <Payment_method />
         </footer>

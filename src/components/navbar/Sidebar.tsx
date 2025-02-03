@@ -20,13 +20,12 @@ const Sidebar: React.FC = () => {
             />
 
             {/* Sidebar */}
-            <div className={`fixed top-0 left-0 h-full w-[80%] max-w-[360px] bg-white z-50 
-                shadow-lg transition-all duration-300 ease-in-out transform
+            <div className={`fixed top-0 left-0 h-full w-[80%] max-w-[360px] bg-white z-50 shadow-lg transition-all duration-300 ease-in-out transform
                 ${pageCtx.showSidebar ? 'translate-x-0' : '-translate-x-full'}`}>
 
                 {/* Close button */}
                 <div className="flex justify-between">
-                    <Link to="/" className="absolute top-4 p-2 left-4 text-xl font-bold color-black uppercase">Shop.Co</Link>
+                    <Link to="/" className="font-header absolute top-4 p-2 left-4 text-xl font-bold color-black uppercase">Shop.Co</Link>
                     <button
                         className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full transition-colors"
                         onClick={toggleSidebar}
