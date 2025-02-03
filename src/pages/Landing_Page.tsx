@@ -38,10 +38,13 @@ const Landing_Page: React.FC = () => {
                         </div>
                     </div>
                 </div>
-
             </div>
             <div className='bg-black'>
                 <Brand_banner />
+            </div>
+            <div className=''>
+                <h1 className='text-center text-3xl font-header uppercase p-8'>new arrivals</h1>
+
             </div>
         </>
     );
