@@ -1,5 +1,6 @@
 import hero_rize from '../assets/images/landing/hero_resized.png'
 import Brand_banner from '../components/brand/Brand_banner';
+import Style_Cards from '../components/dress_style_card/Style_Card';
 
 const Landing_Page: React.FC = () => {
     return (
@@ -39,12 +40,14 @@ const Landing_Page: React.FC = () => {
                     </div>
                 </div>
             </div>
-            <div className='bg-black'>
+            <div className='bg-black mx-auto'>
                 <Brand_banner />
             </div>
-            <div className=''>
+            <div className='sm:px-12 max-w-screen-xl mx-auto'>
                 <h1 className='text-center text-3xl font-header uppercase p-8'>new arrivals</h1>
-
+            </div>
+            <div className='sm:px-12 px-4 max-w-screen-xl mx-auto'>
+                <Style_Cards />
             </div>
         </>
     );
