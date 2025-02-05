@@ -5,7 +5,7 @@ import Footer from './components/footer/Footer';
 import Landing_Page from "./pages/Landing_Page";
 import PageProvider from './context/pageContext';
 import Subscribution_Box from './components/footer/Subscribution_Box';
-import { queryClient } from './utils/queryClient';
+import { queryClient } from '../utils/queryClient';
 
 function App() {
   return (

@@ -13,7 +13,7 @@ const Navbar: React.FC = () => {
     };
 
     return (
-        <div className='bg-stone max-w-screen-xl mx-auto px-4 pt-4 sm:px-12'>
+        <div className='bg-stone max-w-screen-xl mx-auto px-4 py-4 sm:px-12 sticky top-0 z-1000 bg-white'>
             <Sidebar />
             <nav className="flex justify-between items-center gap-4 md:gap-8">
                 <button className="block md:hidden hover:cursor-pointer">
