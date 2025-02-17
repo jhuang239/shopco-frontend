@@ -1,6 +1,5 @@
 import Footer_links from "./Footer_links";
 import Payment_method from "./Payment_method";
-import Subscribution_Box from "./Subscribution_Box";
 
 const Footer: React.FC = () => {
     return (
