@@ -1,8 +1,29 @@
+import { useLoaderData, useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import hero_rize from '../assets/images/landing/hero_resized.png'
 import Brand_banner from '../components/brand/Brand_banner';
 import Style_Cards from '../components/dress_style_card/Style_Card';
+import { productsKeys } from '../../utils/products_loader';
+import { getProductsAndReviews } from '../../utils/products_loader';
+import Gallery from '../components/product_gallery/Gallery';
+import CommentCarousel from '../components/comments/Comment_Carousel';
+
+interface LoaderData {
+    page: number;
+}
 
 const Landing_Page: React.FC = () => {
+
+    // Get the page parameter from loader data
+    const { page } = useLoaderData() as LoaderData;
+
+    // Use the cached query data
+    const { data: productsData } = useQuery({
+        queryKey: productsKeys.page(page),
+        queryFn: () => getProductsAndReviews(page),
+        enabled: false,
+    });
+
     return (
         <>
             <div className='bg-[#f2f0f1]'>
@@ -43,11 +64,17 @@ const Landing_Page: React.FC = () => {
             <div className='bg-black mx-auto'>
                 <Brand_banner />
             </div>
-            <div className='sm:px-12 max-w-screen-xl mx-auto'>
-                <h1 className='text-center text-3xl font-header uppercase p-8'>new arrivals</h1>
+            <div className='sm:px-12 max-w-screen-xl mx-auto bg-white'>
+                <Gallery headerTitle='new arrivals' sliceArr={[0, 5]} products={productsData?.products} />
             </div>
-            <div className='sm:px-12 px-4 max-w-screen-xl mx-auto'>
+            <div className='sm:px-12 max-w-screen-xl mx-auto bg-white mb-16'>
+                <Gallery headerTitle='top selling' sliceArr={[5, 10]} products={productsData?.products} />
+            </div>
+            <div className='sm:px-12 px-4 max-w-screen-xl mx-auto mb-4'>
                 <Style_Cards />
+            </div>
+            <div className='sm:px-12 max-w-screen-xl mx-auto'>
+                <CommentCarousel reviews={productsData?.reviews} />
             </div>
         </>
     );

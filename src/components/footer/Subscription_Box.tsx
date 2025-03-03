@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 
-const Subscribution_Box: React.FC = () => {
+const Subscription_Box: React.FC = () => {
     return (
         <div className=" bg-gradient-to-b from-white to-[#f2f0f1] max-w-screen-xl mx-auto sm:px-12 px-4">
             <div className="bg-black text-white w-full rounded-xl shadow-xl ">
@@ -28,4 +28,4 @@ const Subscribution_Box: React.FC = () => {
     )
 }
 
-export default Subscribution_Box;
+export default Subscription_Box;
