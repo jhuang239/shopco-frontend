@@ -1,6 +1,5 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { QueryClientProvider } from '@tanstack/react-query';
-// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import Navbar from './components/navbar/Navbar';
 import Footer from './components/footer/Footer';
 import Landing_Page from "./pages/Landing_Page";
@@ -24,6 +23,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => (
 const router = createBrowserRouter([
   {
     path: "/",
+    index: true,
     element: <Layout><Landing_Page /></Layout>,
     loader: productsLoader
   }
