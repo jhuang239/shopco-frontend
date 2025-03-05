@@ -17,7 +17,6 @@ const Page_Indicator: React.FC<PageIndicatorProps> = ({ productTitle }) => {
     const location = useLocation();
 
     const locationPath = location.pathname.split("/").slice(1);
-    console.log(locationPath);
 
     const isUUID4 = (str: string): boolean => {
         // UUID v4 pattern: 8-4-4-4-12 hex digits with the version digit being 4
@@ -34,10 +33,6 @@ const Page_Indicator: React.FC<PageIndicatorProps> = ({ productTitle }) => {
             return pageIndicator.push({ title: path, path: `/${path}` });
         }
     })
-
-
-
-    console.log(pageIndicator);
 
     return (
         <>

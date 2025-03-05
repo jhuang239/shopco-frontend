@@ -1,5 +1,3 @@
-// Code Written By: Ananya Das
-// Function: This file contains the code for the landing page of the website. It contains the hero section, brand banner, new arrivals, top selling, style cards and customer reviews.
 import { useQuery } from '@tanstack/react-query';
 import hero_resize from '../assets/images/landing/hero_resized.png'
 import Brand_banner from '../components/brand/Brand_banner';

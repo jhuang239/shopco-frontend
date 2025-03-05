@@ -43,7 +43,6 @@ const getCategories = async () => {
 
 // React Router loader that integrates with React Query
 export async function productsAndReviewsLoader({ params }: LoaderFunctionArgs) {
-    console.log(params);
     const page = params.page ? Number(params.page) : 1;
 
     // Use React Query's prefetchQuery to fetch and cache data

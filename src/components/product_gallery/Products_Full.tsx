@@ -30,7 +30,7 @@ const ProductsFull: React.FC<ProductsFullProps> = ({ products, category }) => {
 
     if (products && products.items.length > 0) {
         productsList =
-            <div className='grid grid-cols-6 gap-4 mt-4 justify-items-center'>
+            <div className='grid grid-cols-6 gap-4 justify-items-center'>
                 {products.items.map((item, index: number) => {
                     return (
                         <div key={`new_arrival_${index}`} className='md:col-span-2 col-span-3 min-w-[250px] w-1/4 flex-shrink-0 mx-auto'>
@@ -42,7 +42,7 @@ const ProductsFull: React.FC<ProductsFullProps> = ({ products, category }) => {
     } else {
         productsList =
             <div className='text-center w-full p-8'>
-                <h1 className='text-3xl font-header uppercase'>No products found</h1>
+                <h1 className='text-3xl font-header uppercase'>Loading...</h1>
             </div>
     }
 
