@@ -7,11 +7,11 @@ type PageContextType = {
 
 const PageContext = createContext<PageContextType>({
     showSidebar: false,
-    setShowSidebar: () => { }
+    setShowSidebar: () => { },
 });
 
 const PageContextProvider: React.FC<{ children: ReactNode }> = (props) => {
-    const [showSidebar, setShowSidebar] = useState(false);
+    const [showSidebar, setShowSidebar] = useState<boolean>(false);
 
     const toggleSidebar = () => {
         setShowSidebar((prev) => !prev);
@@ -19,7 +19,8 @@ const PageContextProvider: React.FC<{ children: ReactNode }> = (props) => {
 
     const contextValue: PageContextType = {
         showSidebar,
-        setShowSidebar: toggleSidebar
+        setShowSidebar: toggleSidebar,
+
     };
 
     return (

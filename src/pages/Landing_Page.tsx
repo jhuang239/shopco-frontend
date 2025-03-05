@@ -1,26 +1,21 @@
-import { useLoaderData, useParams } from 'react-router-dom';
+// Code Written By: Ananya Das
+// Function: This file contains the code for the landing page of the website. It contains the hero section, brand banner, new arrivals, top selling, style cards and customer reviews.
 import { useQuery } from '@tanstack/react-query';
-import hero_rize from '../assets/images/landing/hero_resized.png'
+import hero_resize from '../assets/images/landing/hero_resized.png'
 import Brand_banner from '../components/brand/Brand_banner';
 import Style_Cards from '../components/dress_style_card/Style_Card';
-import { productsKeys } from '../../utils/products_loader';
-import { getProductsAndReviews } from '../../utils/products_loader';
+import { productsKeys } from '../../utils/http';
+import { reviewsKeys } from '../../utils/http';
+import { getProductsAndReviews } from '../../utils/http';
 import Gallery from '../components/product_gallery/Gallery';
 import CommentCarousel from '../components/comments/Comment_Carousel';
 
-interface LoaderData {
-    page: number;
-}
-
 const Landing_Page: React.FC = () => {
-
-    // Get the page parameter from loader data
-    const { page } = useLoaderData() as LoaderData;
 
     // Use the cached query data
     const { data: productsData } = useQuery({
-        queryKey: productsKeys.page(page),
-        queryFn: () => getProductsAndReviews(page),
+        queryKey: [productsKeys.page(1), reviewsKeys.all],
+        queryFn: () => getProductsAndReviews(1),
         enabled: false,
     });
 
@@ -56,7 +51,7 @@ const Landing_Page: React.FC = () => {
                             </div>
                         </div>
                         <div className="md:col-span-1 flex col-span-2 text-center justify-center items-center">
-                            <img src={hero_rize} alt="Hero" className='md:hidden block w-100' />
+                            <img src={hero_resize} alt="Hero" className='md:hidden block w-100' />
                         </div>
                     </div>
                 </div>

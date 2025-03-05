@@ -12,6 +12,10 @@ const Navbar: React.FC = () => {
         pageCtx.setShowSidebar();
     };
 
+    const setIndicator = (path: string) => {
+        console.log(path);
+    }
+
     return (
         <div className='sticky top-0 z-1000 bg-white shadow-md'>
             <div className='bg-stone max-w-screen-xl mx-auto px-4 py-4 sm:px-12 bg-white'>
@@ -30,11 +34,11 @@ const Navbar: React.FC = () => {
                                 </div>
 
                                 <div className="absolute hidden hover:block peer-hover:block w-48 bg-white shadow-lg rounded-md mt-0 py-2 z-50">
-                                    <Link to="/shop/all" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">All Categories</Link>
-                                    <Link to="/shop/men" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Men's Clothing</Link>
-                                    <Link to="/shop/women" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Women's Clothing</Link>
-                                    <Link to="/shop/accessories" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Accessories</Link>
-                                    <Link to="/shop/footwear" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Footwear</Link>
+                                    <Link to="/shop/all" onClick={() => setIndicator("/shop/all")} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">All Categories</Link>
+                                    {/* <Link to="/products/men" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Men's Clothing</Link>
+                                    <Link to="/products/women" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Women's Clothing</Link>
+                                    <Link to="/products/accessories" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Accessories</Link>
+                                    <Link to="/products/footwear" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Footwear</Link> */}
                                 </div>
                             </li>
                             <li>
