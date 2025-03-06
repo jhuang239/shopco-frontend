@@ -53,11 +53,6 @@ const Sidebar: React.FC = () => {
                                             All Categories
                                         </Link>
                                     </li>
-                                    {/* <li>
-                                        <Link to="/shop/women" className="block text-sm text-gray-700 hover:text-blue-600 transition-colors">
-                                            Women
-                                        </Link>
-                                    </li> */}
                                 </ul>
                             </div>
                         </li>

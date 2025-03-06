@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import { useQuery } from '@tanstack/react-query';
 import { productsKeys } from '../../utils/http';
@@ -7,11 +7,13 @@ import Page_Indicator from "../components/page_indicator/Indicator";
 import ProductsFull from "../components/product_gallery/Products_Full";
 import Filter from "../components/filter/Filter";
 import Pagination from "../components/pagination/Pagination";
+import Filter_Sidebar from "../components/filter/Filter_Sidebar";
+import { PageContext } from "../context/pageContext";
 
 const Products_Page = () => {
 
+    const pageCtx = useContext(PageContext);
     const [page, setPage] = useState(1);
-
     const [loading, setLoading] = useState(false);
 
     const { data: productsData } = useQuery({
@@ -51,12 +53,13 @@ const Products_Page = () => {
         <>
             <div className="bg-white">
                 <div className="max-w-screen-xl mx-auto px-4 sm:px-12 py-4 mt-4">
+                    {pageCtx.showFilterSidebar && categoriesData && <Filter_Sidebar categories={categoriesData} />}
                     <div className="flex gap-4">
                         {<Page_Indicator />}
                     </div>
                     <div className="grid grid-cols-4 gap-4 mt-4">
                         <div className="col-span-1 md:block hidden ">
-                            {categoriesData && <Filter categories={categoriesData} />}
+                            {!pageCtx.showFilterSidebar && categoriesData && <Filter categories={categoriesData} />}
                         </div>
                         <div className="md:col-span-3 col-span-4">
                             <ProductsFull products={productsData} category={category} />
@@ -64,11 +67,11 @@ const Products_Page = () => {
                     </div>
                     {totalPages >= 1 &&
                         <div className="grid grid-cols-4 gap-4 mt-4">
-                            <div className="col-span-4 col-start-2">
+                            <div className="col-span-4 md:col-start-2">
                                 <Pagination
                                     loading={loading}
                                     currentPage={page}
-                                    totalPages={totalPages}
+                                    totalPages={30}
                                     onPageChange={setPageHandler}
                                 />
                             </div>

@@ -1,14 +1,15 @@
 import { Category } from "../../interfaces/category_interface";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSliders, faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState, useCallback, useRef } from "react";
+import { faSliders, faChevronUp, faChevronDown, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useState, useCallback, useRef, useContext } from "react";
 import CategoryItem from "./Category_Item";
 import PriceRangeSlider from "./Price_Range_Slider";
 import ColorList from "./Color_List";
 import SizeList from "./Size_List";
 import DressStyleList from "./Dress_Style_List";
+import { PageContext } from "../../context/pageContext";
 
-type FilterProps = {
+export type FilterProps = {
     categories: Category[];
 }
 
@@ -34,14 +35,14 @@ export type DressStyleProps = {
 }
 
 const Colors = ["Red", "Green", "Blue", "Yellow", "Orange", "Purple", "Black", "cyan", "plum", "Pink"];
-
 const Sizes = ["XX-Small", "X-Small", "Small", "Medium", "Large", "X-Large", "XX-Large", "3X-Large", "4X-Large"];
-
 const DressStyles = ["Casual", "Formal", "Party", "Gym"];
-
 
 const Filter: React.FC<FilterProps> = ({ categories }) => {
 
+    console.log("Filter Component Rendered");
+
+    const pageCtx = useContext(PageContext);
     const priceRange = useRef<[number, number]>([0, 200]);
 
     const [categoriesList, setCategoriesList] = useState<CategoryListProps[]>([]);
@@ -148,6 +149,10 @@ const Filter: React.FC<FilterProps> = ({ categories }) => {
         console.log("Price Range: ", priceRange.current);
     }
 
+    const toggleFilterSidebar = () => {
+        pageCtx.setShowFilterSidebar();
+    }
+
     useEffect(() => {
         if (categories && categories.length > 0) {
             setCategoriesList(categories.map((category) => {
@@ -168,10 +173,14 @@ const Filter: React.FC<FilterProps> = ({ categories }) => {
     }, [categories])
 
     return (
-        <div className="flex flex-col gap-4 border-2 rounded-2xl border-gray-200 p-4">
+        <div className={`flex flex-col gap-4 border-2 rounded-2xl border-gray-200 ${pageCtx.showFilterSidebar ? "p-6" : "p-4"}`}>
             <div className="flex flex-row items-center justify-between border-b-2 border-gray-200 pb-4">
                 <h1 className="text-xl font-bold text-gray-600 capitalize">filters</h1>
-                <FontAwesomeIcon icon={faSliders} className="text-gray-600" />
+                {pageCtx.showFilterSidebar === false ?
+                    <FontAwesomeIcon icon={faSliders} className="text-gray-600" />
+                    :
+                    <FontAwesomeIcon icon={faXmark} className="text-gray-600" onClick={toggleFilterSidebar} />
+                }
             </div>
             <div className="flex flex-col gap-4 h-50 no-scrollbar overflow-y-auto border-b-2 border-gray-200 pb-4">
                 {categoriesList && categoriesList.length > 0 &&
@@ -231,7 +240,7 @@ const Filter: React.FC<FilterProps> = ({ categories }) => {
                 <FontAwesomeIcon icon={filterShowConfig.style ? faChevronUp : faChevronDown} className="text-gray-600" />
             </div>
             <div
-                className={`transition-[height] ease-in-out duration-300 px-2 ${filterShowConfig.style ? "max-h-100 opacity-100" : "max-h-0 opacity-0 mb-0"
+                className={`transition-[height] ease-in-out duration-300 ${filterShowConfig.style ? "max-h-100 opacity-100" : "max-h-0 opacity-0 mb-0"
                     }`}
                 style={{
                     transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
@@ -240,7 +249,14 @@ const Filter: React.FC<FilterProps> = ({ categories }) => {
             >
                 <DressStyleList dressStyleList={dressStyleRef.current} onChange={dressStyleHandler} />
             </div>
-            <button className="bg-black text-white py-2 rounded-4xl" onClick={appleFiltersHandler}>Apply Filters</button>
+            {pageCtx.showFilterSidebar === false ?
+                <button className="bg-black text-white py-2 rounded-4xl" onClick={appleFiltersHandler}>Apply Filters</button>
+                :
+                <div className="sticky bottom-0 p-2 flex flex-col z-30 bg-white">
+                    <button className="bg-black text-white py-2 rounded-4xl" onClick={toggleFilterSidebar}>Apply Filters</button>
+                </div>
+
+            }
         </div>
     )
 }

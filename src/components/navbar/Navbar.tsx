@@ -13,7 +13,7 @@ const Navbar: React.FC = () => {
     };
 
     return (
-        <div className='sticky top-0 z-1000 bg-white shadow-md'>
+        <div className='sticky top-0 z-30 bg-white shadow-md'>
             <div className='bg-stone max-w-screen-xl mx-auto px-4 py-4 sm:px-12 bg-white'>
                 <Sidebar />
                 <nav className="flex justify-between items-center gap-4 md:gap-8">

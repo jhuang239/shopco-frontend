@@ -20,11 +20,11 @@ const Pagination: React.FC<PaginationProps> = ({
         const pageNumbers: (number | string)[] = [];
 
         // Always show first few pages
-        if (currentPage <= 4) {
-            for (let i = 1; i <= Math.min(5, totalPages); i++) {
+        if (currentPage <= 2) {
+            for (let i = 1; i <= Math.min(3, totalPages); i++) {
                 pageNumbers.push(i);
             }
-            if (totalPages > 5) {
+            if (totalPages > 3) {
                 pageNumbers.push('...');
                 pageNumbers.push(totalPages);
             }
@@ -52,12 +52,12 @@ const Pagination: React.FC<PaginationProps> = ({
     };
 
     return (
-        <div className="flex items-center justify-between gap-2 my-4 px-4">
+        <div className="flex items-center justify-between gap-2 my-4 md:px-4">
             {/* Previous button */}
             <button
                 onClick={() => onPageChange(currentPage - 1, true)}
                 disabled={currentPage === 1 || loading}
-                className="flex items-center px-4 py-2 border rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                className="flex items-center md:px-4 py-2 px-1 border rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
                 <FontAwesomeIcon icon={faArrowLeft} className="w-4 h-4" />
                 Previous
@@ -89,7 +89,7 @@ const Pagination: React.FC<PaginationProps> = ({
             <button
                 onClick={() => onPageChange(currentPage + 1, true)}
                 disabled={currentPage === totalPages || loading}
-                className="flex items-center px-4 py-2 border rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex items-center md:px-2 px-1 py-2 border rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
                 Next
                 <FontAwesomeIcon icon={faArrowRight} className="w-4 h-4" />
