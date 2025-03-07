@@ -9,6 +9,7 @@ import { queryClient } from '../utils/queryClient';
 import { productsAndReviewsLoader } from '../utils/http';
 import Products_Page from './pages/Products_Page';
 import Error_Page from './pages/Error_Page';
+import Product_Detail_Page from './pages/Product_Detail_Page';
 
 const Layout = ({ children }: { children: React.ReactNode }) => (
   <>
@@ -44,7 +45,7 @@ const router = createBrowserRouter([
       },
       {
         path: ":category/:productID",
-        element: <Layout><Products_Page /></Layout>,
+        element: <Layout><Product_Detail_Page /></Layout>,
       }
     ]
   },

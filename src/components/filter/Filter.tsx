@@ -262,3 +262,5 @@ const Filter: React.FC<FilterProps> = ({ categories }) => {
 }
 
 export default Filter;
+
+export { Sizes };

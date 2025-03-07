@@ -40,6 +40,12 @@ const getCategories = async () => {
     return categories.data;
 }
 
+const getProductDetails = async (id: string) => {
+    const product = await axios.get(`${domain}/products/${id}`);
+    console.log(product.data);
+    return product.data;
+}
+
 
 // React Router loader that integrates with React Query
 export async function productsAndReviewsLoader({ params }: LoaderFunctionArgs) {
@@ -55,4 +61,4 @@ export async function productsAndReviewsLoader({ params }: LoaderFunctionArgs) {
     return { page };
 }
 
-export { getProductsAndReviews, getProducts, getCategories };
+export { getProductsAndReviews, getProducts, getCategories, getProductDetails };

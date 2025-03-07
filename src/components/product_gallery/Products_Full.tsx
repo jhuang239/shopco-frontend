@@ -53,7 +53,7 @@ const ProductsFull: React.FC<ProductsFullProps> = ({ products, category }) => {
 
     return (
         <div>
-            <div className='flex flex-row gap-4 md:justify-between items-center relative'>
+            <div className='flex flex-row gap-4 md:justify-between items-center relative px-6'>
                 <div>
                     <h1 className='text-2xl font-bold capitalize'>{category}</h1>
                 </div>

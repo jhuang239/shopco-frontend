@@ -16,18 +16,18 @@ const GalleryItem: React.FC<Product> = (product) => {
 
                         // Full star
                         if (starValue <= rating) {
-                            return <FullStar key={`p-${index}`} index={index} />
+                            return <FullStar w={5} h={5} key={`p-${index}`} index={index} />
                         }
                         // Half star
                         else if (starValue - 0.5 <= rating) {
-                            return <HalfStar key={`p-${index}`} index={index} />
+                            return <HalfStar w={5} h={5} key={`p-${index}`} index={index} />
                         }
                         // Empty star
                         else {
-                            return <ZeroStar key={`p-${index}`} index={index} />
+                            return <ZeroStar w={5} h={5} key={`p-${index}`} index={index} />
                         }
                     })}
-                    <span className="ml-1 text-sm text-gray-600">{product.averageRating || 0} / 5.0</span>
+                    <span className="ml-1 text-sm text-gray-600">{Number(product.averageRating).toFixed(1) || 0} / 5.0</span>
                 </div>
                 <span className='text-lg font-bold'>${product.price}</span>
             </div>
