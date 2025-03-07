@@ -2,13 +2,14 @@ import GalleryItem from './Gallery_item';
 import { ProductsResponse, Product } from '../../interfaces/fetch_products_interface';
 import { useHorizontalScroll } from '../../hooks/useHorizontalScroll';
 
-type GalleryProps = {
+export type GalleryProps = {
     products: ProductsResponse;
     headerTitle: string;
     sliceArr: [number, number];
+    showAll?: boolean;
 }
 
-const Gallery: React.FC<GalleryProps> = ({ products, headerTitle, sliceArr }) => {
+const Gallery: React.FC<GalleryProps> = ({ products, headerTitle, sliceArr, showAll }) => {
     const scrollRef = useHorizontalScroll();
     return (
         <div className="flex flex-col flex-wrap items-center justify-center py-4 pb-8 border-b-2 border-gray-200">
@@ -25,9 +26,11 @@ const Gallery: React.FC<GalleryProps> = ({ products, headerTitle, sliceArr }) =>
 
                 </div>
             }
-            <button className="bg-white text-black px-16 py-2 rounded-2xl mt-4 hover:bg-gray-100 transition-colors hover:cursor-pointer outline">
-                View All
-            </button>
+            {showAll &&
+                <button className="bg-white text-black px-16 py-2 rounded-2xl mt-4 hover:bg-gray-100 transition-colors hover:cursor-pointer outline">
+                    View All
+                </button>
+            }
         </div>
     )
 }

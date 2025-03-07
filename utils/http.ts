@@ -40,10 +40,16 @@ const getCategories = async () => {
     return categories.data;
 }
 
+// Fetcher function for product details
 const getProductDetails = async (id: string) => {
     const product = await axios.get(`${domain}/products/${id}`);
-    console.log(product.data);
     return product.data;
+}
+
+// Fetcher function for latest products
+const getLatestProducts = async () => {
+    const products = await axios.get(`${domain}/products/latest`);
+    return products.data;
 }
 
 
@@ -61,4 +67,4 @@ export async function productsAndReviewsLoader({ params }: LoaderFunctionArgs) {
     return { page };
 }
 
-export { getProductsAndReviews, getProducts, getCategories, getProductDetails };
+export { getProductsAndReviews, getProducts, getCategories, getProductDetails, getLatestProducts };

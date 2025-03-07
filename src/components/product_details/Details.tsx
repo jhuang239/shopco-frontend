@@ -1,8 +1,5 @@
 import { Product } from "../../interfaces/fetch_products_interface";
-import FullStar from "../stars/Full_Star";
-import HalfStar from "../stars/Half_Star";
-import ZeroStar from "../stars/Zero_star";
-import { renderStars } from "../comments/Comment_Card";
+import RenderStars from "../stars/Render_Stars";
 import Color from "./Color";
 import Size from "./Size";
 import Add_To_Cart from "./Add_To_Cart";
@@ -12,13 +9,14 @@ interface DetailsProps {
 }
 
 const Details: React.FC<DetailsProps> = ({ product }) => {
+    console.log(product);
     return (
         <div className="flex flex-col justify-between gap-2 md:ml-4 md:max-h-[500px] h-full">
             <div className="flex flex-col gap-2">
                 <h1 className="font-header text-4xl">{product.name}</h1>
                 <div className="flex items-center my-2">
                     <div className="flex space-x-1">
-                        {renderStars(Number(product.averageRating), "lg")}
+                        <RenderStars rating={Number(product.averageRating)} />
                     </div>
                     <span className="ml-4 text-xl font-bold text-gray-600">
                         {Number(product.averageRating).toFixed(1) || 0} / 5.0

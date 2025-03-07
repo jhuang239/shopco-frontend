@@ -1,29 +1,22 @@
 import { Reviews } from "../../interfaces/review_interface"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
-import { SizeProp } from '@fortawesome/fontawesome-svg-core';
+import RenderStars from "../stars/Render_Stars";
+
+import moment from 'moment';
 
 type CardProps = {
     comment: Reviews;
 }
 
-// Render stars based on rating
-export const renderStars = (rating: number, size?: SizeProp) => {
-    return Array(5).fill(0).map((_, i) => (
-        <FontAwesomeIcon
-            key={i}
-            icon={faStar}
-            size={size || "lg"}
-            className={i < rating ? "text-yellow-400" : "text-gray-300"}
-        />
-    ));
-};
+
 
 const Comment_Card: React.FC<CardProps> = ({ comment }) => {
+
+    const postedDate = moment(comment.createdAt).format('MMMM D, YYYY');
+
     return (
         <div
             key={comment.id}
-            className="bg-white p-6 rounded-lg shadow-md flex flex-col"
+            className="bg-white p-6 rounded-lg shadow-md flex flex-col h-50 overflow-ellipsis"
         >
             <div className="flex items-center mb-4">
 
@@ -31,14 +24,15 @@ const Comment_Card: React.FC<CardProps> = ({ comment }) => {
                     {comment.user_id.charAt(0)}
                 </div>
 
-                <div>
+                <div className="flex flex-col">
                     <h3 className="font-semibold">{comment.user_id}</h3>
                     <div className="flex space-x-1">
-                        {renderStars(comment.rating)}
+                        {<RenderStars rating={comment.rating} />}
                     </div>
                 </div>
             </div>
             <p className="text-gray-600 flex-grow">{comment.comment}</p>
+            <span className="text-gray-600">Post on {postedDate}</span>
         </div>
     )
 }

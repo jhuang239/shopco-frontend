@@ -6,7 +6,7 @@ import zara from '../../assets/images/bands/zara.png';
 
 const Brand_banner: React.FC = () => {
     return (
-        <div className='max-w-screen-xl mx-auto flex flex-wrap gap-4 py-4 md:justify-between justify-center items-center px-4'>
+        <div className='container mx-auto flex flex-wrap gap-4 py-4 md:justify-between justify-center items-center px-4'>
             <div className='min-h[20%] flex items-center justify-center'>
                 <img src={versace} alt="versace" className='w-[100px]' />
             </div>

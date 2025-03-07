@@ -51,7 +51,7 @@ const Products_Page = () => {
 
     return (
         <div className="bg-white">
-            <div className="max-w-screen-xl mx-auto px-4 sm:px-12 py-4 mt-4">
+            <div className="container mx-auto px-4 sm:px-12 py-4 mt-4">
                 {pageCtx.showFilterSidebar && categoriesData && <Filter_Sidebar categories={categoriesData} />}
                 <div className="flex gap-4">
                     {<Page_Indicator />}

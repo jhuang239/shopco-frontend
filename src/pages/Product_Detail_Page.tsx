@@ -1,4 +1,3 @@
-import { Product } from "../interfaces/fetch_products_interface";
 import { useQuery } from '@tanstack/react-query';
 import { getProductDetails } from "../../utils/http";
 import { useLocation } from "react-router-dom";
@@ -6,6 +5,9 @@ import { isUUID4 } from "../components/page_indicator/Indicator";
 import Page_Indicator from "../components/page_indicator/Indicator";
 import Image_Gallery from "../components/product_details/Image_Gallery";
 import Details from "../components/product_details/Details";
+import Tabs from '../components/product_details/Tabs';
+import ReviewList from '../components/product_details/Review_List';
+import Suggested_Products from '../components/product_details/Suggested_Product';
 
 const Product_Detail_Page: React.FC = () => {
 
@@ -18,11 +20,10 @@ const Product_Detail_Page: React.FC = () => {
         queryFn: () => getProductDetails(id)
     });
 
-    console.log(data);
 
     return (
         <div className="bg-white">
-            <div className="max-w-screen-xl mx-auto px-4 sm:px-12 py-4 mt-4">
+            <div className="container mx-auto px-4 sm:px-12 py-4 mt-4">
                 {isLoading && <h1>Loading...</h1>}
                 {isError && <h1>Error: {error instanceof Error ? error.message : 'Unknown error'}</h1>}
                 {data &&
@@ -38,6 +39,9 @@ const Product_Detail_Page: React.FC = () => {
                                 <Details product={data} />
                             </div>
                         </div>
+                        <Tabs />
+                        <ReviewList reviews={data.Reviews} />
+                        <Suggested_Products />
                     </>
                 }
             </div>

@@ -40,8 +40,6 @@ const DressStyles = ["Casual", "Formal", "Party", "Gym"];
 
 const Filter: React.FC<FilterProps> = ({ categories }) => {
 
-    console.log("Filter Component Rendered");
-
     const pageCtx = useContext(PageContext);
     const priceRange = useRef<[number, number]>([0, 200]);
 

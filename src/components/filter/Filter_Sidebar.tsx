@@ -5,7 +5,6 @@ import { PageContext } from "../../context/pageContext";
 
 const Filter_Sidebar: React.FC<FilterProps> = ({ categories }) => {
 
-    console.log("Filter_Sidebar rendered");
     const pageCtx = useContext(PageContext);
 
     const toggleFilterSidebar = () => {

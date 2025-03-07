@@ -20,7 +20,7 @@ const Landing_Page: React.FC = () => {
     return (
         <>
             <div className='bg-[#f2f0f1]'>
-                <div className="max-w-screen-xl mx-auto px-4 sm:px-12 bg-[#f2f0f1]">
+                <div className="container mx-auto px-4 sm:px-12 bg-[#f2f0f1]">
                     <div className="xl:min-h-140 md:min-h-120 grid md:grid-cols-2 sm:grid-cols-2 grid-cols-1 gap-4
                 md:bg-[url(src/assets/images/landing/hero.png)] bg-cover bg-center bg-no-repeat">
                         <div className="md:col-span-1 sm:col-span-2 col-span-2 flex flex-col items-start justify-center">
@@ -57,16 +57,16 @@ const Landing_Page: React.FC = () => {
             <div className='bg-black mx-auto'>
                 <Brand_banner />
             </div>
-            <div className='sm:px-12 max-w-screen-xl mx-auto bg-white'>
-                <Gallery headerTitle='new arrivals' sliceArr={[0, 5]} products={productsData?.products} />
+            <div className='sm:px-12 container mx-auto bg-white'>
+                <Gallery headerTitle='new arrivals' sliceArr={[0, 5]} products={productsData?.products} showAll={true} />
             </div>
-            <div className='sm:px-12 max-w-screen-xl mx-auto bg-white mb-16'>
-                <Gallery headerTitle='top selling' sliceArr={[5, 10]} products={productsData?.products} />
+            <div className='sm:px-12 container mx-auto bg-white mb-16'>
+                <Gallery headerTitle='top selling' sliceArr={[5, 10]} products={productsData?.products} showAll={true} />
             </div>
-            <div className='sm:px-12 px-4 max-w-screen-xl mx-auto mb-4'>
+            <div className='sm:px-12 px-4 container mx-auto mb-4'>
                 <Style_Cards />
             </div>
-            <div className='sm:px-12 max-w-screen-xl mx-auto'>
+            <div className='sm:px-12 container mx-auto'>
                 <CommentCarousel reviews={productsData?.reviews} />
             </div>
         </>

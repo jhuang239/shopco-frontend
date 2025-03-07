@@ -3,7 +3,7 @@ import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 
 const Subscription_Box: React.FC = () => {
     return (
-        <div className=" bg-gradient-to-b from-white to-[#f2f0f1] max-w-screen-xl mx-auto sm:px-12 px-4">
+        <div className=" bg-gradient-to-b from-white to-[#f2f0f1] container mx-auto sm:px-12 px-4">
             <div className="bg-black text-white w-full rounded-xl shadow-xl ">
                 <div className="p-8 grid grid-cols-10 gap-6 items-center">
                     <div className="space-y-4 md:col-span-6 sm:col-span-10 col-span-10">

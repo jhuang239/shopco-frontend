@@ -16,7 +16,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => (
     <Navbar />
     {children}
     <Subscription_Box />
-    <div className="bg-[#f2f0f1] max-w-screen-xl mx-auto sm:px-12 pt-2">
+    <div className="bg-[#f2f0f1] container mx-auto sm:px-12 pt-2">
       <Footer />
     </div>
   </>

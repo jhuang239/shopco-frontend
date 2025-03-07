@@ -39,7 +39,7 @@ const Size: React.FC = () => {
     }
 
     useEffect(() => {
-        setRandomSizes(generateRandomSizes(5));
+        setRandomSizes(generateRandomSizes(4));
     }, []);
 
     return (

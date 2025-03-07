@@ -14,7 +14,7 @@ const Navbar: React.FC = () => {
 
     return (
         <div className='sticky top-0 z-30 bg-white shadow-md'>
-            <div className='bg-stone max-w-screen-xl mx-auto px-4 py-4 sm:px-12 bg-white'>
+            <div className='bg-stone container mx-auto px-4 py-4 sm:px-12 bg-white'>
                 <Sidebar />
                 <nav className="flex justify-between items-center gap-4 md:gap-8">
                     <button className="block md:hidden hover:cursor-pointer">
@@ -48,7 +48,7 @@ const Navbar: React.FC = () => {
                             </li>
                         </ul>
                     </div>
-                    <div id="search-box" className="flex-grow max-w-xl">
+                    <div id="search-box" className="flex-grow">
                         <div className="relative flex items-center">
                             <input
                                 type="text"
@@ -62,16 +62,15 @@ const Navbar: React.FC = () => {
                         </div>
                     </div>
                     <div id="icon-group" className="flex items-center space-x-4 shrink-0">
-                        <button className='bg-transparent border-none md:hidden'>
+                        <button className='bg-transparent border-none md:hidden cursor-pointer'>
                             <FontAwesomeIcon icon={faSearch} />
                         </button>
-                        <button className="bg-transparent border-none">
+                        <button className="bg-transparent border-none cursor-pointer">
                             <FontAwesomeIcon icon={faShoppingCart} />
                         </button>
-                        <button className="bg-transparent border-none">
+                        <button className="bg-transparent border-none cursor-pointer">
                             <FontAwesomeIcon icon={faUser} />
                         </button>
-
                     </div>
                 </nav>
             </div>

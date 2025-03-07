@@ -25,7 +25,6 @@ const PageContextProvider: React.FC<{ children: ReactNode }> = (props) => {
 
     const toggleFilterSidebar = () => {
         setShowFilterSidebar((prev) => !prev);
-        console.log(showFilterSidebar);
     }
 
     const contextValue: PageContextType = {

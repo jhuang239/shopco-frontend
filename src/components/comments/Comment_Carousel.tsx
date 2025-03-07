@@ -50,7 +50,7 @@ const CommentCarousel: React.FC<ReviewProps> = ({ reviews }) => {
 
     return (
         <div className="w-full bg-white py-16">
-            <div className="max-w-screen-xl mx-auto sm:px-0 px-4">
+            <div className="container mx-auto sm:px-0 px-4">
                 <h2 className="relative text-3xl font-header uppercase text-left mb-12">our happy customers</h2>
 
                 <div className="relative">
