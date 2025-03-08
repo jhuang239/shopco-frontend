@@ -1,20 +1,41 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faShoppingCart, faUser, faBars, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import { useContext } from 'react';
 import { PageContext } from '../../context/pageContext';
+import LoginModal from '../Modals/Login_Modal';
+import { jwtDecode, JwtPayload } from "jwt-decode";
+
+interface CustomJwtPayload extends JwtPayload {
+    username: string;
+}
 
 const Navbar: React.FC = () => {
     const pageCtx = useContext(PageContext);
+
     const toggleSidebar = () => {
         pageCtx.setShowSidebar();
     };
+    const toggleLoginModal = () => {
+        pageCtx.setShowLoginModal();
+    }
+
+    const [username, setUsername] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (pageCtx.token) {
+            const decodedToken = jwtDecode<CustomJwtPayload>(pageCtx.token);
+            setUsername(decodedToken.username);
+        } else {
+            setUsername(null);
+        }
+    }, [pageCtx.token]);
 
     return (
         <div className='sticky top-0 z-30 bg-white shadow-md'>
-            <div className='bg-stone container mx-auto px-4 py-4 sm:px-12 bg-white'>
+            <div className='bg-stone container mx-auto py-4 sm:px-12 bg-white'>
                 <Sidebar />
                 <nav className="flex justify-between items-center gap-4 md:gap-8">
                     <button className="block md:hidden hover:cursor-pointer">
@@ -31,10 +52,6 @@ const Navbar: React.FC = () => {
 
                                 <div className="absolute hidden hover:block peer-hover:block w-48 bg-white shadow-lg rounded-md mt-0 py-2 z-50">
                                     <Link to="/shop/all" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">All Categories</Link>
-                                    {/* <Link to="/products/men" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Men's Clothing</Link>
-                                    <Link to="/products/women" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Women's Clothing</Link>
-                                    <Link to="/products/accessories" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Accessories</Link>
-                                    <Link to="/products/footwear" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Footwear</Link> */}
                                 </div>
                             </li>
                             <li>
@@ -53,7 +70,7 @@ const Navbar: React.FC = () => {
                             <input
                                 type="text"
                                 placeholder="Search..."
-                                className="pl-8 py-1 rounded-md border-none w-full outline-none bg-stone-100 rounded-xl hidden md:block"
+                                className="pl-8 py-1 border-none w-full outline-none bg-stone-100 rounded-xl hidden md:block"
                             />
                             <button className="absolute left-0 ml-2 bg-transparent border-none hidden md:block">
                                 <FontAwesomeIcon icon={faSearch} />
@@ -69,11 +86,14 @@ const Navbar: React.FC = () => {
                             <FontAwesomeIcon icon={faShoppingCart} />
                         </button>
                         <button className="bg-transparent border-none cursor-pointer">
-                            <FontAwesomeIcon icon={faUser} />
+                            {typeof username === 'string' ? <div className="w-8 h-8 rounded-full bg-gray-300 mr-4 flex items-center justify-center capitalize" onClick={toggleLoginModal}>
+                                {username.charAt(0)}
+                            </div> : <FontAwesomeIcon icon={faUser} onClick={toggleLoginModal} />}
                         </button>
                     </div>
                 </nav>
             </div>
+            <LoginModal isOpen={pageCtx.showLoginModal} onClose={toggleLoginModal} />
         </div>
     );
 };

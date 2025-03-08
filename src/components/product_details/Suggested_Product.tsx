@@ -9,8 +9,6 @@ const Suggested_Products: React.FC = () => {
         queryFn: getLatestProducts
     });
 
-    console.log(latestProducts);
-
     return (
         <div className="container mx-auto">
             {isLoading && <h1>Loading...</h1>}

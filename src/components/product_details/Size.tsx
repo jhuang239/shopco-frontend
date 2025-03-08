@@ -1,4 +1,4 @@
-import { Sizes } from "../filter/Filter";
+import { Sizes } from "../../dummyData/dummy";
 import { useEffect, useState } from "react";
 
 const Size: React.FC = () => {

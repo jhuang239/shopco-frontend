@@ -15,36 +15,50 @@ const Pagination: React.FC<PaginationProps> = ({
     loading,
     onPageChange,
 }) => {
+
     // Generate the page numbers to display
     const getPageNumbers = () => {
         const pageNumbers: (number | string)[] = [];
 
-        // Always show first few pages
-        if (currentPage <= 2) {
-            for (let i = 1; i <= Math.min(3, totalPages); i++) {
+        // For fewer pages, just show all of them
+        if (totalPages <= 5) {
+            for (let i = 1; i <= totalPages; i++) {
                 pageNumbers.push(i);
             }
-            if (totalPages > 3) {
-                pageNumbers.push('...');
-                pageNumbers.push(totalPages);
-            }
+            return pageNumbers;
         }
-        // Always show last few pages
-        else if (currentPage > totalPages - 4) {
-            pageNumbers.push(1);
+
+        // Always add page 1
+        pageNumbers.push(1);
+
+        // Check if we need an ellipsis after page 1
+        if (currentPage > 3) {
             pageNumbers.push('...');
-            for (let i = Math.max(totalPages - 4, 1); i <= totalPages; i++) {
-                pageNumbers.push(i);
-            }
         }
-        // Show pages around current page
-        else {
-            pageNumbers.push(1);
+
+        // Calculate the range of pages to show around current page
+        let startPage = Math.max(2, currentPage - 1);
+        let endPage = Math.min(totalPages - 1, currentPage + 1);
+
+        // Adjust the range to show at least 3 pages if possible
+        if (currentPage <= 3) {
+            endPage = Math.min(4, totalPages - 1);
+        } else if (currentPage >= totalPages - 2) {
+            startPage = Math.max(totalPages - 3, 2);
+        }
+
+        // Add the range of page numbers
+        for (let i = startPage; i <= endPage; i++) {
+            pageNumbers.push(i);
+        }
+
+        // Check if we need an ellipsis before the last page
+        if (currentPage < totalPages - 2) {
             pageNumbers.push('...');
-            for (let i = currentPage - 1; i <= currentPage + 1; i++) {
-                pageNumbers.push(i);
-            }
-            pageNumbers.push('...');
+        }
+
+        // Always add the last page (unless it's already been added)
+        if (totalPages > 1) {
             pageNumbers.push(totalPages);
         }
 

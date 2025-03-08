@@ -2,7 +2,6 @@ import causal from '../../assets/images/styles/Casual.png';
 import formal from '../../assets/images/styles/Formal.png';
 import party from '../../assets/images/styles/Party.png';
 import gym from '../../assets/images/styles/Gym.png';
-import { Link } from 'react-router-dom';
 
 const Style_Cards: React.FC = () => {
     return (

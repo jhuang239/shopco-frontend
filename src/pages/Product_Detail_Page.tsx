@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getProductDetails } from "../../utils/http";
 import { useLocation } from "react-router-dom";
-import { isUUID4 } from "../components/page_indicator/Indicator";
+import { isUUID4 } from '../../utils/isUUID4';
 import Page_Indicator from "../components/page_indicator/Indicator";
 import Image_Gallery from "../components/product_details/Image_Gallery";
 import Details from "../components/product_details/Details";
@@ -24,8 +24,14 @@ const Product_Detail_Page: React.FC = () => {
     return (
         <div className="bg-white">
             <div className="container mx-auto px-4 sm:px-12 py-4 mt-4">
-                {isLoading && <h1>Loading...</h1>}
-                {isError && <h1>Error: {error instanceof Error ? error.message : 'Unknown error'}</h1>}
+                {isLoading &&
+                    <div className="text-center flex items-center justify-center w-full p-8 h-100">
+                        <h1 className='text-3xl font-header uppercase'>Loading...</h1>
+                    </div>
+                }
+                {isError && <div className="text-center flex items-center justify-center w-full p-8 h-100">
+                    <h1 className='text-3xl font-header uppercase'>{error instanceof Error ? error.message : 'An error occurred'}</h1>
+                </div>}
                 {data &&
                     <>
                         <div className="flex gap-4">

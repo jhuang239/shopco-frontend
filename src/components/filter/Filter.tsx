@@ -8,6 +8,7 @@ import ColorList from "./Color_List";
 import SizeList from "./Size_List";
 import DressStyleList from "./Dress_Style_List";
 import { PageContext } from "../../context/pageContext";
+import { Colors, Sizes, DressStyles } from "../../dummyData/dummy";
 
 export type FilterProps = {
     categories: Category[];
@@ -34,9 +35,7 @@ export type DressStyleProps = {
     checked: boolean;
 }
 
-const Colors = ["Red", "Green", "Blue", "Yellow", "Orange", "Purple", "Black", "cyan", "plum", "Pink"];
-const Sizes = ["XX-Small", "X-Small", "Small", "Medium", "Large", "X-Large", "XX-Large", "3X-Large", "4X-Large"];
-const DressStyles = ["Casual", "Formal", "Party", "Gym"];
+
 
 const Filter: React.FC<FilterProps> = ({ categories }) => {
 
@@ -260,5 +259,3 @@ const Filter: React.FC<FilterProps> = ({ categories }) => {
 }
 
 export default Filter;
-
-export { Sizes };

@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { useHorizontalScroll } from '../../hooks/useHorizontalScroll';
 type ImagePros = {
     id: string;
     file_name: string;
@@ -13,6 +13,7 @@ type ImageGalleryProps = {
 const Image_Gallery: React.FC<ImageGalleryProps> = ({ images }) => {
 
     const [activeIndex, setActiveIndex] = useState(0);
+    const scrollRef = useHorizontalScroll();
 
     return (
         <div className="grid md:grid-cols-4 grid-cols-1 gap-4">
@@ -26,7 +27,7 @@ const Image_Gallery: React.FC<ImageGalleryProps> = ({ images }) => {
             </div>
 
             {/* Thumbnails - will appear second on mobile, first on desktop */}
-            <div className="md:col-span-1 order-2 md:order-1 flex md:flex-col flex-row gap-4 md:max-h-[500px] md:overflow-y-auto overflow-x-auto no-scrollbar justify-between">
+            <div className="md:col-span-1 order-2 md:order-1 flex md:flex-col flex-row gap-4 md:max-h-[500px] md:overflow-y-auto overflow-x-auto no-scrollbar justify-between" ref={scrollRef}>
                 {images.map((image, index) => {
                     return (
                         <img

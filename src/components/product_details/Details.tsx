@@ -9,9 +9,8 @@ interface DetailsProps {
 }
 
 const Details: React.FC<DetailsProps> = ({ product }) => {
-    console.log(product);
     return (
-        <div className="flex flex-col justify-between gap-2 md:ml-4 md:max-h-[500px] h-full">
+        <div className="flex flex-col justify-between gap-2 md:ml-4 lg:max-h-[500px] h-full">
             <div className="flex flex-col gap-2">
                 <h1 className="font-header text-4xl">{product.name}</h1>
                 <div className="flex items-center my-2">

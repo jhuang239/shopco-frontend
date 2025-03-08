@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import hero_resize from '../assets/images/landing/hero_resized.png'
+import hero_resize from '../assets/images/landing/hero_resized.png';
+import hero from "../assets/images/landing/hero.png"
 import Brand_banner from '../components/brand/Brand_banner';
 import Style_Cards from '../components/dress_style_card/Style_Card';
 import { productsKeys } from '../../utils/http';
@@ -17,12 +18,18 @@ const Landing_Page: React.FC = () => {
         enabled: false,
     });
 
+    const heroBackgroundStyle = {
+        '--hero-bg-image': `url(${hero})`
+    } as React.CSSProperties;
+
     return (
         <>
             <div className='bg-[#f2f0f1]'>
                 <div className="container mx-auto px-4 sm:px-12 bg-[#f2f0f1]">
-                    <div className="xl:min-h-140 md:min-h-120 grid md:grid-cols-2 sm:grid-cols-2 grid-cols-1 gap-4
-                md:bg-[url(src/assets/images/landing/hero.png)] bg-cover bg-center bg-no-repeat">
+                    <div
+                        className="xl:min-h-140 md:min-h-120 grid md:grid-cols-2 sm:grid-cols-2 grid-cols-1 gap-4 md:bg-[image:var(--hero-bg-image)] bg-cover bg-center bg-no-repeat"
+                        style={heroBackgroundStyle}
+                    >
                         <div className="md:col-span-1 sm:col-span-2 col-span-2 flex flex-col items-start justify-center">
                             <h1 className="font-header uppercase text-4xl">
                                 find clothes that matches your style
@@ -36,7 +43,7 @@ const Landing_Page: React.FC = () => {
                             <div className='w-full flex flex-wrap gap-4 mt-4 md:items-start sm:items-start items-center md:justify-between sm:justify-between justify-center'>
                                 <div className='flex flex-col gap-1 md:border-r-1 sm:border-r-1 border-gray-400 md:pr-10 sm:pr-10'>
                                     <h2 className='text-2xl font-bold'>200+</h2>
-                                    <span className='text-[12px]'>Internation Brands</span>
+                                    <span className='text-[12px]'>International Brands</span>
                                 </div>
                                 <div className='flex flex-col gap-1 md:border-r-1 sm:border-r-1 border-gray-400 md:pr-10 sm:pr-10'>
                                     <h2 className='text-2xl font-bold'>2,000+</h2>
@@ -44,7 +51,7 @@ const Landing_Page: React.FC = () => {
                                 </div>
                                 <div className='flex flex-col gap-1'>
                                     <h2 className='text-2xl font-bold'>30,000+</h2>
-                                    <span className='text-[12px]'>Happ Customers</span>
+                                    <span className='text-[12px]'>Happy Customers</span>
                                 </div>
                             </div>
                         </div>

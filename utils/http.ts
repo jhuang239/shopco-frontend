@@ -28,6 +28,8 @@ const getProducts = async (category: string, page: number) => {
 
     if (category === 'all') {
         url += `/all?page=${page}`;
+    } else {
+        url += `/category?page=${page}&categoryName=${category}`;
     }
 
     const products = await axios.get(url);
@@ -52,6 +54,12 @@ const getLatestProducts = async () => {
     return products.data;
 }
 
+// Login mutation function
+const login = async (data: { username: string, password: string }) => {
+    const response = await axios.post(`${domain}/auth/login`, data);
+    return response.data;
+}
+
 
 // React Router loader that integrates with React Query
 export async function productsAndReviewsLoader({ params }: LoaderFunctionArgs) {
@@ -67,4 +75,4 @@ export async function productsAndReviewsLoader({ params }: LoaderFunctionArgs) {
     return { page };
 }
 
-export { getProductsAndReviews, getProducts, getCategories, getProductDetails, getLatestProducts };
+export { getProductsAndReviews, getProducts, getCategories, getProductDetails, getLatestProducts, login };

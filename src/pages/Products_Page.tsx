@@ -9,45 +9,64 @@ import Filter from "../components/filter/Filter";
 import Pagination from "../components/pagination/Pagination";
 import Filter_Sidebar from "../components/filter/Filter_Sidebar";
 import { PageContext } from "../context/pageContext";
+import { queryClient } from "../../utils/queryClient";
 
 const Products_Page = () => {
-
     const pageCtx = useContext(PageContext);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
+    const [totalPages, setTotalPages] = useState(0);
+    const location = useLocation();
+    const category = location.pathname.split("/")[2];
 
-    const { data: productsData } = useQuery({
-        queryKey: [productsKeys.page(page),],
+    // Track previous pathname to detect category changes
+    const [prevPathname, setPrevPathname] = useState(location.pathname);
+
+    const { data: productsData, refetch } = useQuery({
+        queryKey: [productsKeys.page(page), category], // Add category to query key
         queryFn: () => getProducts(category, page),
         staleTime: 1000 * 60 * 5,
     });
-
-    const [totalPages, setTotalPages] = useState(productsData?.totalPages || 0);
-
-    const location = useLocation();
-
-    const category = location.pathname.split("/")[2];
-
-
 
     const { data: categoriesData } = useQuery({
         queryKey: ['categories'],
         queryFn: getCategories,
         staleTime: 1000 * 60 * 5,
-    })
+    });
 
     const setPageHandler = (page: number, loading: boolean) => {
         setLoading(loading);
         setPage(page);
-    }
+    };
 
     useEffect(() => {
         if (productsData) {
             setTotalPages(productsData.totalPages);
             setLoading(false);
         }
-    }, [productsData])
+    }, [productsData]);
 
+    // Handle category changes
+    useEffect(() => {
+        // Check if the category has changed
+        if (location.pathname !== prevPathname) {
+            // Reset page to 1 when category changes
+            setPage(1);
+
+            // Reset the query for the new category
+            queryClient.resetQueries({
+                queryKey: [productsKeys.all, category]  // Reset all queries for this category
+            });
+
+            // Update the previous pathname
+            setPrevPathname(location.pathname);
+        }
+    }, [location.pathname, prevPathname, category]);
+
+    // This effect handles refetching when page changes within the same category
+    useEffect(() => {
+        refetch();
+    }, [page, category, refetch]);
 
     return (
         <div className="bg-white">
@@ -70,7 +89,7 @@ const Products_Page = () => {
                             <Pagination
                                 loading={loading}
                                 currentPage={page}
-                                totalPages={30}
+                                totalPages={totalPages}
                                 onPageChange={setPageHandler}
                             />
                         </div>
@@ -78,7 +97,7 @@ const Products_Page = () => {
                 }
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default Products_Page;
