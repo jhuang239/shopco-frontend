@@ -40,14 +40,14 @@ const Navbar: React.FC = () => {
 
     return (
         <div className='sticky top-0 z-30 bg-white shadow-md'>
-            <div className='bg-stone container mx-auto py-4 sm:px-12 bg-white'>
+            <div className='bg-stone container mx-auto bg-white p-4'>
                 <Sidebar />
                 <nav className="flex justify-between items-center gap-4 md:gap-8">
                     <button className="block md:hidden hover:cursor-pointer">
                         <FontAwesomeIcon icon={faBars} onClick={toggleSidebar} />
                     </button>
                     <Link to="/" className="font-header text-xl font-bold color-black uppercase shrink-0">Shop.Co</Link>
-                    <div id="nav-links" className="flex items-center hidden md:block">
+                    <div id="nav-links" className="items-center md:block hidden ">
                         <ul className="flex items-center space-x-8">
                             <li className="relative group">
                                 <div className="peer">

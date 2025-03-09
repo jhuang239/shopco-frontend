@@ -40,7 +40,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews }) => {
                     <button className="bg-gray-200 hover:bg-gray-400 h-10 w-10 rounded-full cursor-pointer">
                         <FontAwesomeIcon icon={faSliders} className="text-black" />
                     </button>
-                    <button onClick={handleReviewSort} className="bg-gray-200 hover:bg-gray-400 cursor-pointer py-2 px-6 rounded-3xl flex items-center gap-4">
+                    <button onClick={handleReviewSort} className="bg-gray-200 hover:bg-gray-400 cursor-pointer py-2 px-6 rounded-3xl flex items-center gap-4 md:block">
                         <span className="text-gray-600 capitalize">latest</span>
                         <FontAwesomeIcon icon={reviewSorted ? faChevronUp : faChevronDown} className="text-black" />
                     </button>

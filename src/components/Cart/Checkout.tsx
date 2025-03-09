@@ -1,6 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faTag } from "@fortawesome/free-solid-svg-icons";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { clearCart } from "../../../utils/http";
+import { queryClient } from "../../../utils/queryClient";
+import { PageContext } from "../../context/pageContext";
 
 type CheckoutProps = {
     subtotal: number;
@@ -12,6 +16,26 @@ const Checkout: React.FC<CheckoutProps> = ({ subtotal, discount, deliveryFee }) 
 
     const [cartSubtotal, setCartSubtotal] = useState<number>(0);
     const [cartDiscount, setCartDiscount] = useState<number>(0);
+
+    const pageCtx = useContext(PageContext);
+
+    const checkOut = async () => {
+        const data = await clearCart();
+        return data;
+    }
+
+    const { mutate, isLoading, isError } = useMutation({
+        mutationFn: checkOut,
+        onSuccess: (data) => {
+            console.log(data);
+            queryClient.invalidateQueries({ queryKey: ['cart'] });
+            pageCtx.clearCartQuantity();
+        }
+    });
+
+    const handleCheckout = () => {
+        mutate();
+    }
 
     useEffect(() => {
         setCartSubtotal(subtotal);
@@ -42,11 +66,10 @@ const Checkout: React.FC<CheckoutProps> = ({ subtotal, discount, deliveryFee }) 
                     <FontAwesomeIcon icon={faTag} className="text-gray-400" />
                     <input type="text" placeholder="Enter Promo Code" className="w-full outline-0" />
                 </div>
-                <button className="bg-black text-white rounded-3xl p-2 w-1/3">Apply</button>
+                <button className="bg-black text-white rounded-3xl p-2 w-1/3 cursor-pointer">Apply</button>
             </div>
-            <div className="flex flex-row justify-center items-center gap-4 w-full bg-black rounded-3xl p-3">
-                <button className=" text-white">Proceed to checkout</button>
-                <FontAwesomeIcon icon={faArrowRight} className="text-white" />
+            <div className="flex justify-center items-center gap-4 bg-black rounded-3xl" onClick={handleCheckout}>
+                <button disabled={isLoading || isError} className="cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-white w-full p-3">Proceed to Checkout<FontAwesomeIcon icon={faArrowRight} className="text-white ml-3" /></button>
             </div>
         </div>
     )

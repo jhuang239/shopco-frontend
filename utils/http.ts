@@ -121,6 +121,15 @@ const removeProductFromCart = async (data: { id: string }) => {
     return response.data;
 }
 
+const clearCart = async () => {
+    const response = await axios.delete(`${domain}/cart/clearCart`, {
+        headers: {
+            'Authorization': `Bearer ${getToken()}`
+        }
+    });
+    return response.data;
+}
+
 // React Router loader that integrates with React Query
 export async function productsAndReviewsLoader({ params }: LoaderFunctionArgs) {
     const page = params.page ? Number(params.page) : 1;
@@ -135,4 +144,4 @@ export async function productsAndReviewsLoader({ params }: LoaderFunctionArgs) {
     return { page };
 }
 
-export { getProductsAndReviews, getProducts, getCategories, getProductDetails, getLatestProducts, login, addProductToCart, getCartQuantity, getCart, increaseProductQuantity, reduceProductQuantity, removeProductFromCart };
+export { getProductsAndReviews, getProducts, getCategories, getProductDetails, getLatestProducts, login, addProductToCart, getCartQuantity, getCart, increaseProductQuantity, reduceProductQuantity, removeProductFromCart, clearCart };
