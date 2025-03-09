@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useState, useEffect } from "react";
-import { getToken, isTokenExpired, removeToken, saveToken } from "../../utils/saveToken";
+import { getToken, isTokenExpired, removeToken, saveToken } from "../../utils/Token";
+import { getCartQuantity } from "../../utils/http";
 
 type PageContextType = {
     showSidebar: boolean;
@@ -13,6 +14,9 @@ type PageContextType = {
     removeToken: () => void;
     isLogged: boolean;
     setIsLogged: (logged: boolean) => void;
+    cartQuantity: { product_id: string }[];
+    setCartQuantity: (id: string, type: string) => void;
+    clearCartQuantity: () => void;
 }
 
 const PageContext = createContext<PageContextType>({
@@ -26,7 +30,10 @@ const PageContext = createContext<PageContextType>({
     setToken: () => { },
     removeToken: () => { },
     isLogged: false,
-    setIsLogged: () => { }
+    setIsLogged: () => { },
+    cartQuantity: [],
+    setCartQuantity: () => { },
+    clearCartQuantity: () => { },
 });
 
 const PageContextProvider: React.FC<{ children: ReactNode }> = (props) => {
@@ -35,6 +42,7 @@ const PageContextProvider: React.FC<{ children: ReactNode }> = (props) => {
     const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
     const [token, setToken] = useState<string | null>(null);
     const [isLogged, setIsLogged] = useState<boolean>(false);
+    const [cartQuantity, setCartQuantity] = useState<{ product_id: string }[]>([]);
 
     const toggleSidebar = () => {
         setShowSidebar((prev) => !prev);
@@ -57,6 +65,27 @@ const PageContextProvider: React.FC<{ children: ReactNode }> = (props) => {
         removeToken();
         setIsLogged(false);
         setToken(null);
+        setCartQuantity((prev) => {
+            return [];
+        });
+    }
+
+    const setCartQuantityHandler = (id: string, type: string) => {
+        if (type === "add") {
+            setCartQuantity((prev) => {
+                return [...prev, { product_id: id }];
+            });
+        } else if (type === "remove") {
+            setCartQuantity((prev) => {
+                return prev.filter((item) => item.product_id !== id);
+            });
+        }
+    }
+
+    const clearCartQuantityHandler = () => {
+        setCartQuantity((prev) => {
+            return [];
+        });
     }
 
     const contextValue: PageContextType = {
@@ -70,19 +99,25 @@ const PageContextProvider: React.FC<{ children: ReactNode }> = (props) => {
         setToken: setTokenHandler,
         removeToken: removeTokenHandler,
         isLogged,
-        setIsLogged
+        setIsLogged,
+        cartQuantity,
+        setCartQuantity: setCartQuantityHandler,
+        clearCartQuantity: clearCartQuantityHandler
     };
 
     useEffect(() => {
         const token = getToken();
         if (token && !isTokenExpired(token)) {
+            getCartQuantity().then((data) => {
+                setCartQuantity(data);
+            });
             setToken(token);
             setIsLogged(true);
         } else {
             removeTokenHandler();
             setIsLogged(false);
         }
-    }, []);
+    }, [token]);
 
     return (
         <PageContext.Provider value={contextValue}>

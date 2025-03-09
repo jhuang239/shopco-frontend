@@ -1,7 +1,11 @@
 import { Sizes } from "../../dummyData/dummy";
 import { useEffect, useState } from "react";
 
-const Size: React.FC = () => {
+type SizeProps = {
+    onChange: (size: string) => void;
+};
+
+const Size: React.FC<SizeProps> = ({ onChange }) => {
 
     const [randomSizes, setRandomSizes] = useState<string[]>([]);
     const [selectedSize, setSelectedSize] = useState<string>('');
@@ -36,6 +40,7 @@ const Size: React.FC = () => {
 
     const sizeHandler = (size: string) => {
         setSelectedSize(size);
+        onChange(size);
     }
 
     useEffect(() => {

@@ -3,12 +3,17 @@ import RenderStars from "../stars/Render_Stars";
 import Color from "./Color";
 import Size from "./Size";
 import Add_To_Cart from "./Add_To_Cart";
+import { useState } from "react";
 
 interface DetailsProps {
     product: Product;
 }
 
 const Details: React.FC<DetailsProps> = ({ product }) => {
+
+    const [selectedColor, setSelectedColor] = useState<string>('');
+    const [selectedSize, setSelectedSize] = useState<string>('');
+
     return (
         <div className="flex flex-col justify-between gap-2 md:ml-4 lg:max-h-[500px] h-full">
             <div className="flex flex-col gap-2">
@@ -28,9 +33,9 @@ const Details: React.FC<DetailsProps> = ({ product }) => {
             </div>
 
             <div className="flex flex-col gap-2 mt-auto">
-                <Color />
-                <Size />
-                <Add_To_Cart />
+                <Color onChange={setSelectedColor} />
+                <Size onChange={setSelectedSize} />
+                <Add_To_Cart productId={product.id} color={selectedColor} size={selectedSize} />
             </div>
         </div>
     );

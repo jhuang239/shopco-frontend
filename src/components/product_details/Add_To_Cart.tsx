@@ -1,8 +1,19 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
+import { PageContext } from "../../context/pageContext";
+import { addProductToCart } from "../../../utils/http";
 
-const Add_To_Cart: React.FC = () => {
+type AddToCartProps = {
+    productId: string;
+    color: string;
+    size: string;
+};
+
+const Add_To_Cart: React.FC<AddToCartProps> = ({ productId, color, size }) => {
+
+    const pageCtx = useContext(PageContext);
+
     const [quantity, setQuantity] = useState<number>(1);
 
     const handleChangeQuantity = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,6 +38,15 @@ const Add_To_Cart: React.FC = () => {
         }
     };
 
+    const handleAddToCart = async () => {
+        if (pageCtx.isLogged && pageCtx.token) {
+            await addProductToCart({ product_id: productId, quantity, size, color });
+            pageCtx.setCartQuantity(productId, "add");
+        } else {
+            pageCtx.setShowLoginModal();
+        }
+    }
+
     return (
         <div className="grid grid-cols-3 gap-4 w-full border-t-2 border-gray-200 pt-4">
             <div className="flex flex-row justify-between col-span-1 w-full rounded-4xl bg-gray-200">
@@ -44,7 +64,7 @@ const Add_To_Cart: React.FC = () => {
                 </button>
             </div>
             <div className="col-span-2">
-                <button className="w-full bg-black text-white rounded-4xl py-2 hover:bg-gray-800 cursor-pointer">
+                <button onClick={handleAddToCart} className="w-full bg-black text-white rounded-4xl py-2 hover:bg-gray-800 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed" disabled={quantity < 1 || !color || !size}>
                     Add to Cart
                 </button>
             </div>

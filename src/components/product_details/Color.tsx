@@ -1,28 +1,46 @@
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { Colors } from "../../dummyData/dummy";
 
-const Color: React.FC = () => {
+type ColorProps = {
+    onChange: (color: string) => void;
+};
+
+const Color: React.FC<ColorProps> = ({ onChange }) => {
 
     const [selectedColor, setSelectedColor] = useState<string>('');
     const [randomColors, setRandomColors] = useState<string[]>([]);
 
     useEffect(() => {
-        // Function to generate a random RGB color
-        const generateRandomRGBColor = () => {
-            const r = Math.floor(Math.random() * 256); // Random value between 0-255
-            const g = Math.floor(Math.random() * 256);
-            const b = Math.floor(Math.random() * 256);
-            return `rgb(${r}, ${g}, ${b})`;
-        };
 
-        // Generate an array of 5 random RGB colors
+        // Generate an array of unique random colors from the Colors array
         const generateRandomColors = (count: number) => {
-            const colors = [];
-            for (let i = 0; i < count; i++) {
-                colors.push(generateRandomRGBColor());
+            // Ensure we don't try to get more colors than exist in the array
+            const maxCount = Math.min(count, Colors.length);
+
+            // Create a copy of indices array (0 to Colors.length-1)
+            const availableIndices = Array.from({ length: Colors.length }, (_, i) => i);
+
+            // Array to store our selected colors
+            const selectedColors = [];
+
+            // Select 'maxCount' unique random colors
+            for (let i = 0; i < maxCount; i++) {
+                // Get a random index from the remaining available indices
+                const randomIndex = Math.floor(Math.random() * availableIndices.length);
+
+                // Get the color index from our available indices
+                const colorIndex = availableIndices[randomIndex];
+
+                // Add the color to our selected colors
+                selectedColors.push(Colors[colorIndex]);
+
+                // Remove the used index from available indices to ensure uniqueness
+                availableIndices.splice(randomIndex, 1);
             }
-            return colors;
+
+            return selectedColors;
         };
 
         // Set the state with 5 random colors
@@ -34,6 +52,7 @@ const Color: React.FC = () => {
 
     const colorHandler = (color: string) => {
         setSelectedColor(color);
+        onChange(color);
     }
 
     return (

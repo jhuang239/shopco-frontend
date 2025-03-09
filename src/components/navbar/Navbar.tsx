@@ -23,6 +23,7 @@ const Navbar: React.FC = () => {
     }
 
     const [username, setUsername] = useState<string | null>(null);
+    const [cartQuantity, setCartQuantity] = useState<number>(0);
 
     useEffect(() => {
         if (pageCtx.token) {
@@ -32,6 +33,10 @@ const Navbar: React.FC = () => {
             setUsername(null);
         }
     }, [pageCtx.token]);
+
+    useEffect(() => {
+        setCartQuantity(pageCtx.cartQuantity.length);
+    }, [pageCtx.cartQuantity])
 
     return (
         <div className='sticky top-0 z-30 bg-white shadow-md'>
@@ -51,7 +56,7 @@ const Navbar: React.FC = () => {
                                 </div>
 
                                 <div className="absolute hidden hover:block peer-hover:block w-48 bg-white shadow-lg rounded-md mt-0 py-2 z-50">
-                                    <Link to="/shop/all" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">All Categories</Link>
+                                    <Link to="/Shop/All" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">All Categories</Link>
                                 </div>
                             </li>
                             <li>
@@ -82,9 +87,17 @@ const Navbar: React.FC = () => {
                         <button className='bg-transparent border-none md:hidden cursor-pointer'>
                             <FontAwesomeIcon icon={faSearch} />
                         </button>
-                        <button className="bg-transparent border-none cursor-pointer">
-                            <FontAwesomeIcon icon={faShoppingCart} />
-                        </button>
+
+                        <Link to="/Cart" >
+                            <button disabled={!pageCtx.isLogged} className="bg-transparent border-none cursor-pointer relative disabled:opacity-50 disabled:cursor-not-allowed">
+                                <FontAwesomeIcon icon={faShoppingCart} />
+                                {cartQuantity > 0 &&
+                                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                                        {cartQuantity}
+                                    </span>
+                                }
+                            </button>
+                        </Link>
                         <button className="bg-transparent border-none cursor-pointer">
                             {typeof username === 'string' ? <div className="w-8 h-8 rounded-full bg-gray-300 mr-4 flex items-center justify-center capitalize" onClick={toggleLoginModal}>
                                 {username.charAt(0)}

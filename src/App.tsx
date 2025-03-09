@@ -10,6 +10,7 @@ import { productsAndReviewsLoader } from '../utils/http';
 import Products_Page from './pages/Products_Page';
 import Error_Page from './pages/Error_Page';
 import Product_Detail_Page from './pages/Product_Detail_Page';
+import Cart_Page from './pages/Cart_Page';
 
 const Layout = ({ children }: { children: React.ReactNode }) => (
   <>
@@ -37,23 +38,28 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Navigate to="/shop/all" />,
+        element: <Navigate to="/Shop/All" />,
       },
       {
-        path: ":category",
+        path: ":Category",
         element: <Layout><Products_Page /></Layout>,
       },
       {
-        path: ":category/:productID",
+        path: ":Category/:productID",
         element: <Layout><Product_Detail_Page /></Layout>,
       }
     ]
   },
   {
-    path: "/search/:query",
-    element: <Layout><Products_Page /></Layout>,
+    path: "/cart",
     errorElement: <Layout><Error_Page /></Layout>,
+    element: <Layout><Cart_Page /></Layout>,
   }
+  // {
+  //   path: "/search/:query",
+  //   element: <Layout><Products_Page /></Layout>,
+  //   errorElement: <Layout><Error_Page /></Layout>,
+  // }
 ]);
 
 

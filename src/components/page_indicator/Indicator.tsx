@@ -29,8 +29,6 @@ const Page_Indicator: React.FC<PageIndicatorProps> = ({ productTitle }) => {
         }
     })
 
-
-
     return (
         <>
             {pageIndicator.map((page, index) => {

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { queryClient } from "./queryClient";
 import { LoaderFunctionArgs } from "react-router-dom";
+import { getToken } from "./Token";
 
 const domain = import.meta.env.VITE_DOMAIN;
 
@@ -26,7 +27,7 @@ const getProductsAndReviews = async (page: number) => {
 const getProducts = async (category: string, page: number) => {
     let url = `${domain}/products`;
 
-    if (category === 'all') {
+    if (category.toLocaleLowerCase() === 'all') {
         url += `/all?page=${page}`;
     } else {
         url += `/category?page=${page}&categoryName=${category}`;
@@ -60,6 +61,65 @@ const login = async (data: { username: string, password: string }) => {
     return response.data;
 }
 
+// Fetcher function for add product into cart
+const addProductToCart = async (data: { product_id: string, quantity: number, size: string, color: string }) => {
+    const response = await axios.post(
+        `${domain}/cart/addProductToCart`,
+        data,
+        {
+            headers: {
+                'Authorization': `Bearer ${getToken()}`
+            }
+        }
+    );
+    return response.data;
+}
+
+const getCartQuantity = async () => {
+    const response = await axios.get(`${domain}/cart/quantity`, {
+        headers: {
+            'Authorization': `Bearer ${getToken()}`
+        }
+    });
+    return response.data;
+}
+
+const getCart = async () => {
+    const response = await axios.get(`${domain}/cart`, {
+        headers: {
+            'Authorization': `Bearer ${getToken()}`
+        }
+    });
+    return response.data;
+}
+
+const increaseProductQuantity = async (data: { id: string }) => {
+    const response = await axios.put(`${domain}/cart/increaseProductQuantity`, data, {
+        headers: {
+            'Authorization': `Bearer ${getToken()}`
+        }
+    });
+    return response.data;
+}
+
+const reduceProductQuantity = async (data: { id: string }) => {
+    const response = await axios.put(`${domain}/cart/reduceProductQuantity`, data, {
+        headers: {
+            'Authorization': `Bearer ${getToken()}`
+        }
+    });
+    return response.data;
+}
+
+const removeProductFromCart = async (data: { id: string }) => {
+    const response = await axios.delete(`${domain}/cart/removeProductFromCart`, {
+        headers: {
+            'Authorization': `Bearer ${getToken()}`
+        },
+        data: data
+    });
+    return response.data;
+}
 
 // React Router loader that integrates with React Query
 export async function productsAndReviewsLoader({ params }: LoaderFunctionArgs) {
@@ -75,4 +135,4 @@ export async function productsAndReviewsLoader({ params }: LoaderFunctionArgs) {
     return { page };
 }
 
-export { getProductsAndReviews, getProducts, getCategories, getProductDetails, getLatestProducts, login };
+export { getProductsAndReviews, getProducts, getCategories, getProductDetails, getLatestProducts, login, addProductToCart, getCartQuantity, getCart, increaseProductQuantity, reduceProductQuantity, removeProductFromCart };

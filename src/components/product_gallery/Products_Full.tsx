@@ -38,7 +38,7 @@ const ProductsFull: React.FC<ProductsFullProps> = ({ products, category }) => {
             <div className='grid grid-cols-6 gap-4 justify-items-center'>
                 {products.items.map((item, index: number) => {
                     return (
-                        <div key={`new_arrival_${index}`} className='md:col-span-2 col-span-3 md:min-w-[300px] sm:min-w-[250px] min-w-[200px] w-1/4 flex-shrink-0 mx-auto'>
+                        <div key={`new_arrival_${index}`} className='md:col-span-2 col-span-3  xl:min-w-[280px] md:min-w-[225px] sm:min-w-[250px] min-w-[200px] w-1/4 flex-shrink-0 mx-auto'>
                             <GalleryItem {...item as Product} />
                         </div>
                     )
