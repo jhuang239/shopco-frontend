@@ -55,7 +55,10 @@ const Cart_Product_Item: React.FC<CartProductItemProps> = ({ CartItem, lastItem 
         },
         // If the mutation fails, use the context returned from onMutate to roll back
         onError: (err, variables, context) => {
+
             console.error("Error modifying cart:", err);
+
+            console.log("Rolling back to previous cart data", variables);
 
             // Roll back to the previous cart query data
             if (context?.previousCart) {
