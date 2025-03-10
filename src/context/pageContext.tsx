@@ -65,9 +65,7 @@ const PageContextProvider: React.FC<{ children: ReactNode }> = (props) => {
         removeToken();
         setIsLogged(false);
         setToken(null);
-        setCartQuantity((prev) => {
-            return [];
-        });
+        setCartQuantity([]);
     }
 
     const setCartQuantityHandler = (id: string, type: string) => {
@@ -83,9 +81,7 @@ const PageContextProvider: React.FC<{ children: ReactNode }> = (props) => {
     }
 
     const clearCartQuantityHandler = () => {
-        setCartQuantity((prev) => {
-            return [];
-        });
+        setCartQuantity([]);
     }
 
     const contextValue: PageContextType = {
