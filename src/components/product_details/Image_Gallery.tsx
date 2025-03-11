@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useHorizontalScroll } from '../../hooks/useHorizontalScroll';
+import { useHorizontalScroll } from '@hooks/useHorizontalScroll';
 type ImagePros = {
     id: string;
     file_name: string;

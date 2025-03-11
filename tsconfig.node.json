@@ -19,6 +19,16 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
+
+    /* aliases */
+    // "baseUrl": ".",
+    // "paths": {
+    //   "@/*": ["src/*"],
+    //   "@utils/*": ["utils/*"],
+    //   "@components/*": ["src/components/*"],
+    //   "@hooks/*": ["src/hooks/*"],
+    //   "@pages/*": ["src/pages/*"]
+    // }
   },
   "include": ["vite.config.ts"]
 }
