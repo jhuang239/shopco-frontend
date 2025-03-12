@@ -15,7 +15,6 @@ const Pagination: React.FC<PaginationProps> = ({
     loading,
     onPageChange,
 }) => {
-
     // Generate the page numbers to display
     const getPageNumbers = () => {
         const pageNumbers: (number | string)[] = [];
@@ -33,7 +32,7 @@ const Pagination: React.FC<PaginationProps> = ({
 
         // Check if we need an ellipsis after page 1
         if (currentPage > 3) {
-            pageNumbers.push('...');
+            pageNumbers.push("...");
         }
 
         // Calculate the range of pages to show around current page
@@ -54,7 +53,7 @@ const Pagination: React.FC<PaginationProps> = ({
 
         // Check if we need an ellipsis before the last page
         if (currentPage < totalPages - 2) {
-            pageNumbers.push('...');
+            pageNumbers.push("...");
         }
 
         // Always add the last page (unless it's already been added)
@@ -81,16 +80,20 @@ const Pagination: React.FC<PaginationProps> = ({
             <div className="flex items-center gap-2">
                 {getPageNumbers().map((page, index) => (
                     <React.Fragment key={index}>
-                        {page === '...' ? (
+                        {page === "..." ? (
                             <span className="px-4 py-2 text-gray-700">...</span>
                         ) : (
                             <button
-                                disabled={loading}
-                                onClick={() => typeof page === 'number' && onPageChange(page, true)}
-                                className={`px-4 py-2 rounded-md text-sm disabled:opacity-50 disabled:cursor-not-allowed ${currentPage === page
-                                    ? 'bg-gray-100 text-gray-900 font-medium'
-                                    : 'text-gray-600 hover:bg-gray-50'
-                                    }`}
+                                disabled={loading || currentPage === page}
+                                onClick={() =>
+                                    typeof page === "number" &&
+                                    onPageChange(page, true)
+                                }
+                                className={`px-4 py-2 rounded-md text-sm disabled:opacity-50 disabled:cursor-not-allowed ${
+                                    currentPage === page
+                                        ? "bg-gray-100 text-gray-900 font-medium"
+                                        : "text-gray-600 hover:bg-gray-50"
+                                }`}
                             >
                                 {page}
                             </button>
