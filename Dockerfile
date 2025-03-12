@@ -3,9 +3,14 @@ FROM node:18-alpine as build
 
 WORKDIR /app
 
-# Copy package files and install dependencies
-COPY package.json package-lock.json* ./
-RUN npm ci
+# Install pnpm globally
+RUN npm install -g pnpm
+
+# Copy package files for dependency installation
+COPY package.json pnpm-lock.yaml* ./
+
+# Install dependencies with pnpm
+RUN pnpm install --frozen-lockfile
 
 # Copy all project files (including .env for local dev values)
 COPY . .
@@ -17,7 +22,7 @@ ARG API_URL=http://api.yourdomain.com
 RUN echo "VITE_DOMAIN=${API_URL}" > .env
 
 # Build the application (will use the VITE_DOMAIN from the updated .env file)
-RUN npm run build
+RUN pnpm run build
 
 # Production stage with Nginx
 FROM nginx:alpine
