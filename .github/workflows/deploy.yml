@@ -1,1 +1,68 @@
+# This is a basic workflow to help you get started with Actions
 
+name: Backend Deploy
+
+# Controls when the workflow will run
+on:
+    # Triggers the workflow on push or pull request events but only for the "main" branch
+    push:
+        branches: ["main"]
+
+    # Allows you to run this workflow manually from the Actions tab
+    workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+    # This workflow contains a single job called "build"
+    build:
+        # The type of runner that the job will run on
+        runs-on: ubuntu-latest
+
+        # Steps represent a sequence of tasks that will be executed as part of the job
+        steps:
+            # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+            - uses: actions/checkout@v4
+
+            - name: Set up SSH
+              id: ssh-setup
+              env:
+                  SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+                  SSH_USER: ${{ secrets.SSH_USER }}
+                  HOST: ${{ secrets.HOST }}
+              run: |
+                  mkdir -p ~/.ssh/
+                  echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+                  chmod 600 ~/.ssh/id_rsa
+                  ssh-keyscan -H $HOST >> ~/.ssh/known_hosts
+
+            - name: Create .evn file
+              id: create-env
+              run: |
+
+                  # Create .env file  
+                  cat << EOF > .env
+                  API_URL=${{ secrets.API_URL }}
+                  DOMAIN=${{ secrets.DOMAIN }}
+                  EOF
+
+            - name: Setup directories and copy files
+              id: setup-directories
+              run: |
+                  # Copy repository files
+                  ssh ${{ secrets.SSH_USER }}@${{ secrets.HOST }} "mkdir -p ~/Github_Projects/shopco-frontend"
+                  scp -r ./* ${{ secrets.SSH_USER }}@${{ secrets.HOST }}:~/Github_Projects/shopco-frontend/
+
+                  # Copy .env file
+                  scp -r ./.env ${{ secrets.SSH_USER }}@${{ secrets.HOST }}:~/Github_Projects/shopco-frontend/
+
+            - name: Deploy
+              id: deploy-frontend
+              run: |
+                  ssh ${{ secrets.SSH_USER }}@${{ secrets.HOST }} "cd ~/Github_Projects/shopco-frontend && \
+                  docker compose down && \
+                  docker compose up -d --build"
+
+            - name: Clean up SSH keys
+              if: always()
+              run: |
+                  rm -f ~/.ssh/id_rsa ~/.ssh/known_hosts
