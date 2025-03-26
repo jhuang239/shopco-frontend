@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { useContext } from "react";
 import { PageContext } from "../../context/pageContext";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 const Sidebar: React.FC = () => {
     const pageCtx = useContext(PageContext);
@@ -15,22 +15,35 @@ const Sidebar: React.FC = () => {
             {/* Overlay */}
             <div
                 className={`fixed inset-0 bg-black/50 transition-all duration-300 ease-in-out z-40
-                    ${pageCtx.showSidebar ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
+                    ${
+                        pageCtx.showSidebar
+                            ? "opacity-100 visible"
+                            : "opacity-0 invisible"
+                    }`}
                 onClick={toggleSidebar}
             />
 
             {/* Sidebar */}
-            <div className={`fixed top-0 left-0 h-full w-[80%] max-w-[360px] bg-white z-50 shadow-lg transition-all duration-300 ease-in-out transform
-                ${pageCtx.showSidebar ? 'translate-x-0' : '-translate-x-full'}`}>
-
+            <div
+                className={`fixed top-0 left-0 h-full w-[80%] max-w-[360px] bg-white z-50 shadow-lg transition-all duration-300 ease-in-out transform
+                ${pageCtx.showSidebar ? "translate-x-0" : "-translate-x-full"}`}
+            >
                 {/* Close button */}
                 <div className="flex justify-between">
-                    <Link to="/" className="font-header absolute top-4 p-2 left-4 text-xl font-bold color-black uppercase">Shop.Co</Link>
+                    <Link
+                        to="/"
+                        className="font-header absolute top-4 p-2 left-4 text-xl font-bold color-black uppercase"
+                    >
+                        Shop.Co
+                    </Link>
                     <button
                         className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full transition-colors"
                         onClick={toggleSidebar}
                     >
-                        <FontAwesomeIcon icon={faXmark} className="text-gray-600 w-6 h-6 hover:cursor-pointer" />
+                        <FontAwesomeIcon
+                            icon={faXmark}
+                            className="text-gray-600 w-6 h-6 hover:cursor-pointer"
+                        />
                     </button>
                 </div>
                 {/* Navigation links */}
@@ -49,7 +62,10 @@ const Sidebar: React.FC = () => {
                             <div className="overflow-hidden transition-all duration-300 ease-in-out max-h-0 group-hover:max-h-40">
                                 <ul className="mt-2 ml-4 space-y-3">
                                     <li>
-                                        <Link to="/Shop/All" className="block text-sm text-gray-700 hover:text-blue-600 transition-colors">
+                                        <Link
+                                            to="/Shop/All"
+                                            className="block text-sm text-gray-700 hover:text-blue-600 transition-colors"
+                                        >
                                             All Categories
                                         </Link>
                                     </li>
@@ -57,14 +73,25 @@ const Sidebar: React.FC = () => {
                             </div>
                         </li>
                         <li>
-                            <a href="/about" className="text-gray-800 hover:text-blue-600 transition-colors">
-                                About
-                            </a>
+                            <Link
+                                to="/onSale"
+                                className="text-gray-800 hover:text-blue-600 transition-colors"
+                            >
+                                On Sale
+                            </Link>
                         </li>
                         <li>
-                            <a href="/contact" className="text-gray-800 hover:text-blue-600 transition-colors">
-                                Contact
-                            </a>
+                            <Link
+                                to="/newArrivals"
+                                className="text-gray-800 hover:text-blue-600 transition-colors"
+                            >
+                                New Arrivals
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/brands" className="text-sm text-black">
+                                Brand
+                            </Link>
                         </li>
                     </ul>
                 </nav>
