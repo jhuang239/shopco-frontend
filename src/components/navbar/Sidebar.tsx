@@ -89,7 +89,10 @@ const Sidebar: React.FC = () => {
                             </Link>
                         </li>
                         <li>
-                            <Link to="/brands" className="text-sm text-black">
+                            <Link
+                                to="/brands"
+                                className="text-gray-800 hover:text-blue-600 transition-colors"
+                            >
                                 Brand
                             </Link>
                         </li>
