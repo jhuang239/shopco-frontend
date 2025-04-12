@@ -93,7 +93,7 @@ const Filter: React.FC<FilterProps> = ({
     });
 
     const categoryHandler = (id: string) => {
-        categoryListRef.current = categoryListRef.current.map((category) => {
+        categoryListRef.current = categoriesList.map((category) => {
             if (category.id === id) {
                 return {
                     ...category,
