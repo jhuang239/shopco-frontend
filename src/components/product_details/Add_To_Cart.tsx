@@ -11,7 +11,6 @@ type AddToCartProps = {
 };
 
 const Add_To_Cart: React.FC<AddToCartProps> = ({ productId, color, size }) => {
-
     const pageCtx = useContext(PageContext);
 
     const [quantity, setQuantity] = useState<number>(1);
@@ -40,17 +39,25 @@ const Add_To_Cart: React.FC<AddToCartProps> = ({ productId, color, size }) => {
 
     const handleAddToCart = async () => {
         if (pageCtx.isLogged && pageCtx.token) {
-            await addProductToCart({ product_id: productId, quantity, size, color });
-            pageCtx.setCartQuantity(productId, "add");
+            const data = await addProductToCart({
+                product_id: productId,
+                quantity,
+                size,
+                color,
+            });
+            pageCtx.setCartQuantity(data.id, "add");
         } else {
             pageCtx.setShowLoginModal();
         }
-    }
+    };
 
     return (
         <div className="grid grid-cols-3 gap-4 w-full border-t-2 border-gray-200 pt-4">
             <div className="flex flex-row justify-between col-span-1 w-full rounded-4xl bg-gray-200">
-                <button onClick={handleSubtract} className="w-10 h-10 cursor-pointer hover:bg-gray-300 rounded-l-4xl px-2">
+                <button
+                    onClick={handleSubtract}
+                    className="w-10 h-10 cursor-pointer hover:bg-gray-300 rounded-l-4xl px-2"
+                >
                     <FontAwesomeIcon icon={faMinus} />
                 </button>
                 <input
@@ -59,12 +66,19 @@ const Add_To_Cart: React.FC<AddToCartProps> = ({ productId, color, size }) => {
                     onChange={handleChangeQuantity}
                     className="w-10 h-10 text-center"
                 />
-                <button onClick={handleAdd} className="w-10 h-10 cursor-pointer hover:bg-gray-300 rounded-r-4xl px-2">
+                <button
+                    onClick={handleAdd}
+                    className="w-10 h-10 cursor-pointer hover:bg-gray-300 rounded-r-4xl px-2"
+                >
                     <FontAwesomeIcon icon={faPlus} />
                 </button>
             </div>
             <div className="col-span-2">
-                <button onClick={handleAddToCart} className="w-full bg-black text-white rounded-4xl py-2 hover:bg-gray-800 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed" disabled={quantity < 1 || !color || !size}>
+                <button
+                    onClick={handleAddToCart}
+                    className="w-full bg-black text-white rounded-4xl py-2 hover:bg-gray-800 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={quantity < 1 || !color || !size}
+                >
                     Add to Cart
                 </button>
             </div>

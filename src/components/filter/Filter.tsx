@@ -1,5 +1,9 @@
 import { Category } from "../../interfaces/category_interface";
+import { StylesResponse } from "../../interfaces/style_interface";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useMutation } from "@tanstack/react-query";
+import { queryClient } from "../../../utils/queryClient";
+import { productsKeys } from "../../../utils/http";
 import {
     faSliders,
     faChevronUp,
@@ -13,10 +17,14 @@ import ColorList from "./Color_List";
 import SizeList from "./Size_List";
 import DressStyleList from "./Dress_Style_List";
 import { PageContext } from "../../context/pageContext";
-import { Colors, Sizes, DressStyles } from "../../dummyData/dummy";
+import { Colors, Sizes } from "../../dummyData/dummy";
+import { getProductsByFilters } from "../../../utils/http";
+import { filterProps } from "../../../utils/http";
 
 export type FilterProps = {
     categories: Category[];
+    styles: StylesResponse[];
+    currentCategory: string;
 };
 
 type CategoryListProps = {
@@ -36,17 +44,23 @@ export type SizeProps = {
 };
 
 export type DressStyleProps = {
+    id: string;
     style: string;
     checked: boolean;
 };
 
-const Filter: React.FC<FilterProps> = ({ categories }) => {
+const Filter: React.FC<FilterProps> = ({
+    categories,
+    styles,
+    currentCategory,
+}) => {
     const pageCtx = useContext(PageContext);
     const priceRange = useRef<[number, number]>([0, 200]);
 
     const [categoriesList, setCategoriesList] = useState<CategoryListProps[]>(
         []
     );
+
     const categoryListRef = useRef<CategoryListProps[]>([]);
 
     const colorListRef = useRef<ColorProps[]>(
@@ -67,14 +81,9 @@ const Filter: React.FC<FilterProps> = ({ categories }) => {
         })
     );
 
-    const dressStyleRef = useRef<DressStyleProps[]>(
-        DressStyles.map((style) => {
-            return {
-                style: style,
-                checked: false,
-            };
-        })
-    );
+    const [dressStyleList, setDressStyleList] = useState<DressStyleProps[]>([]);
+
+    const dressStyleRef = useRef<DressStyleProps[]>([]);
 
     const [filterShowConfig, setFilterShowConfig] = useState({
         price: true,
@@ -120,17 +129,15 @@ const Filter: React.FC<FilterProps> = ({ categories }) => {
     };
 
     const dressStyleHandler = (style: string) => {
-        dressStyleRef.current = dressStyleRef.current.map(
-            (s: DressStyleProps) => {
-                if (s.style === style) {
-                    return {
-                        ...s,
-                        checked: !s.checked,
-                    };
-                }
-                return s;
+        dressStyleRef.current = dressStyleList.map((s: DressStyleProps) => {
+            if (s.style === style) {
+                return {
+                    ...s,
+                    checked: !s.checked,
+                };
             }
-        );
+            return s;
+        });
     };
 
     const priceRangeHandler = useCallback((values: [number, number]) => {
@@ -144,13 +151,76 @@ const Filter: React.FC<FilterProps> = ({ categories }) => {
         });
     };
 
+    const applyFiltersMutation = useMutation({
+        mutationFn: async (filter: filterProps) => {
+            return await getProductsByFilters(filter, 1);
+        },
+        onSuccess: (data) => {
+            console.log("Filtered Data: ", data);
+            queryClient.setQueryData(
+                [productsKeys.page(1), currentCategory],
+                data
+            );
+        },
+    });
+
     const appleFiltersHandler = () => {
         console.log("Category List: ", categoryListRef.current);
         console.log("Color List: ", colorListRef.current);
         console.log("Size List: ", sizeListRef.current);
         console.log("Dress Style List: ", dressStyleRef.current);
         console.log("Price Range: ", priceRange.current);
+
+        const filter: filterProps = {
+            category_ids: categoryListRef.current
+                .filter((category) => category.checked)
+                .map((category) => category.id),
+            brand_id: null,
+            style_ids: dressStyleRef.current
+                .filter((style) => style.checked)
+                .map((style) => style.id),
+            product_name: null,
+        };
+        console.log("Filter: ", filter);
+        applyFiltersMutation.mutateAsync(filter);
     };
+
+    // const clearFiltersHandler = () => {
+    //     setCategoriesList(
+    //         categoriesList.map((category) => {
+    //             return {
+    //                 ...category,
+    //                 checked: false,
+    //             };
+    //         })
+    //     );
+    //     categoryListRef.current = categoryListRef.current.map((category) => {
+    //         return {
+    //             ...category,
+    //             checked: false,
+    //         };
+    //     });
+    //     colorListRef.current = colorListRef.current.map((color) => {
+    //         return {
+    //             ...color,
+    //             checked: false,
+    //         };
+    //     });
+    //     sizeListRef.current = sizeListRef.current.map((size) => {
+    //         return {
+    //             ...size,
+    //             checked: false,
+    //         };
+    //     });
+    //     dressStyleRef.current = dressStyleRef.current.map((style) => {
+    //         return {
+    //             ...style,
+    //             checked: false,
+    //         };
+    //     });
+    //     priceRange.current = [0, 200];
+    //     setHardRefresher((prev) => !prev);
+    // };
 
     const toggleFilterSidebar = () => {
         appleFiltersHandler();
@@ -168,15 +238,22 @@ const Filter: React.FC<FilterProps> = ({ categories }) => {
                     };
                 })
             );
-            categoryListRef.current = categories.map((category) => {
-                return {
-                    id: category.id,
-                    name: category.name,
-                    checked: false,
-                };
-            });
         }
     }, [categories]);
+
+    useEffect(() => {
+        if (styles && styles.length > 0) {
+            setDressStyleList(
+                styles.map((style) => {
+                    return {
+                        id: style.id,
+                        style: style.name,
+                        checked: false,
+                    };
+                })
+            );
+        }
+    }, [styles]);
 
     return (
         <div
@@ -191,12 +268,12 @@ const Filter: React.FC<FilterProps> = ({ categories }) => {
                 {pageCtx.showFilterSidebar === false ? (
                     <FontAwesomeIcon
                         icon={faSliders}
-                        className="text-gray-600"
+                        className="text-gray-600 cursor-pointer"
                     />
                 ) : (
                     <FontAwesomeIcon
                         icon={faXmark}
-                        className="text-gray-600"
+                        className="text-gray-600 cursor-pointer"
                         onClick={toggleFilterSidebar}
                     />
                 )}
@@ -328,21 +405,21 @@ const Filter: React.FC<FilterProps> = ({ categories }) => {
                 }}
             >
                 <DressStyleList
-                    dressStyleList={dressStyleRef.current}
+                    dressStyleList={dressStyleList}
                     onChange={dressStyleHandler}
                 />
             </div>
             {pageCtx.showFilterSidebar === false ? (
                 <button
-                    className="bg-black text-white py-2 rounded-4xl"
+                    className="bg-black text-white py-2 px-4 rounded-4xl cursor-pointer"
                     onClick={appleFiltersHandler}
                 >
                     Apply Filters
                 </button>
             ) : (
-                <div className="sticky bottom-0 p-2 flex flex-col z-30 bg-white">
+                <div className="sticky bottom-0 p-2 flex flex-row z-30 gap-2 bg-white items-center justify-between">
                     <button
-                        className="bg-black text-white py-2 rounded-4xl"
+                        className="bg-black text-white py-2 px-4 rounded-4xl cursor-pointer w-1/2"
                         onClick={toggleFilterSidebar}
                     >
                         Apply Filters

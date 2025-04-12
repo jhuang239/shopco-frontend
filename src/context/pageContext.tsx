@@ -1,5 +1,10 @@
 import { createContext, ReactNode, useState, useEffect } from "react";
-import { getToken, isTokenExpired, removeToken, saveToken } from "../../utils/Token";
+import {
+    getToken,
+    isTokenExpired,
+    removeToken,
+    saveToken,
+} from "../../utils/Token";
 import { getCartQuantity } from "../../utils/http";
 
 type PageContextType = {
@@ -14,26 +19,26 @@ type PageContextType = {
     removeToken: () => void;
     isLogged: boolean;
     setIsLogged: (logged: boolean) => void;
-    cartQuantity: { product_id: string }[];
+    cartQuantity: { id: string }[];
     setCartQuantity: (id: string, type: string) => void;
     clearCartQuantity: () => void;
-}
+};
 
 const PageContext = createContext<PageContextType>({
     showSidebar: false,
-    setShowSidebar: () => { },
+    setShowSidebar: () => {},
     showFilterSidebar: false,
-    setShowFilterSidebar: () => { },
+    setShowFilterSidebar: () => {},
     showLoginModal: false,
-    setShowLoginModal: () => { },
+    setShowLoginModal: () => {},
     token: null,
-    setToken: () => { },
-    removeToken: () => { },
+    setToken: () => {},
+    removeToken: () => {},
     isLogged: false,
-    setIsLogged: () => { },
+    setIsLogged: () => {},
     cartQuantity: [],
-    setCartQuantity: () => { },
-    clearCartQuantity: () => { },
+    setCartQuantity: () => {},
+    clearCartQuantity: () => {},
 });
 
 const PageContextProvider: React.FC<{ children: ReactNode }> = (props) => {
@@ -42,7 +47,7 @@ const PageContextProvider: React.FC<{ children: ReactNode }> = (props) => {
     const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
     const [token, setToken] = useState<string | null>(null);
     const [isLogged, setIsLogged] = useState<boolean>(false);
-    const [cartQuantity, setCartQuantity] = useState<{ product_id: string }[]>([]);
+    const [cartQuantity, setCartQuantity] = useState<{ id: string }[]>([]);
 
     const toggleSidebar = () => {
         setShowSidebar((prev) => !prev);
@@ -50,39 +55,39 @@ const PageContextProvider: React.FC<{ children: ReactNode }> = (props) => {
 
     const toggleFilterSidebar = () => {
         setShowFilterSidebar((prev) => !prev);
-    }
+    };
 
     const toggleLoginModal = () => {
         setShowLoginModal((prev) => !prev);
-    }
+    };
 
     const setTokenHandler = (token: string) => {
         saveToken(token);
         setToken(token);
-    }
+    };
 
     const removeTokenHandler = () => {
         removeToken();
         setIsLogged(false);
         setToken(null);
         setCartQuantity([]);
-    }
+    };
 
     const setCartQuantityHandler = (id: string, type: string) => {
         if (type === "add") {
             setCartQuantity((prev) => {
-                return [...prev, { product_id: id }];
+                return [...prev, { id: id }];
             });
         } else if (type === "remove") {
             setCartQuantity((prev) => {
-                return prev.filter((item) => item.product_id !== id);
+                return prev.filter((item) => item.id !== id);
             });
         }
-    }
+    };
 
     const clearCartQuantityHandler = () => {
         setCartQuantity([]);
-    }
+    };
 
     const contextValue: PageContextType = {
         showSidebar,
@@ -98,7 +103,7 @@ const PageContextProvider: React.FC<{ children: ReactNode }> = (props) => {
         setIsLogged,
         cartQuantity,
         setCartQuantity: setCartQuantityHandler,
-        clearCartQuantity: clearCartQuantityHandler
+        clearCartQuantity: clearCartQuantityHandler,
     };
 
     useEffect(() => {
@@ -120,7 +125,7 @@ const PageContextProvider: React.FC<{ children: ReactNode }> = (props) => {
             {props.children}
         </PageContext.Provider>
     );
-}
+};
 
 export { PageContext };
 export default PageContextProvider;

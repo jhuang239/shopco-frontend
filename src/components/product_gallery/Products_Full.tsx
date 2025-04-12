@@ -46,12 +46,20 @@ const ProductsFull: React.FC<ProductsFullProps> = ({ products, category }) => {
                     return (
                         <div
                             key={`new_arrival_${index}`}
-                            className="md:col-span-2 col-span-3  xl:min-w-[280px] md:min-w-[225px] sm:min-w-[250px] min-w-[200px] w-1/4 flex-shrink-0 mx-auto"
+                            className="md:col-span-2 col-span-3 xl:min-w-[280px] md:min-w-[225px] sm:min-w-[250px] min-w-[180px] md:w-1/4 sm:w-1/2 flex-shrink-0 mx-auto"
                         >
                             <GalleryItem {...(item as Product)} />
                         </div>
                     );
                 })}
+            </div>
+        );
+    } else if (products && products.items.length === 0) {
+        productsList = (
+            <div className="text-center w-full p-8">
+                <h1 className="text-3xl font-header uppercase">
+                    No Products found
+                </h1>
             </div>
         );
     } else {

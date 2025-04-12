@@ -6,6 +6,7 @@ import {
     getProducts,
     getCategories,
     getProductsByBrand,
+    getStyles,
 } from "../../utils/http";
 import Page_Indicator from "../components/page_indicator/Indicator";
 import ProductsFull from "../components/product_gallery/Products_Full";
@@ -55,6 +56,12 @@ const Products_Page: React.FC<ProductsPageProps> = ({
         staleTime: 1000 * 60 * 5,
     });
 
+    const { data: stylesData } = useQuery({
+        queryKey: ["styles"],
+        queryFn: getStyles,
+        staleTime: 1000 * 60 * 5,
+    });
+
     const setPageHandler = (page: number, loading: boolean) => {
         setLoading(loading);
         setPage(page);
@@ -93,13 +100,21 @@ const Products_Page: React.FC<ProductsPageProps> = ({
         <div className="bg-white">
             <div className="container mx-auto px-4 sm:px-12 py-4 mt-4">
                 {pageCtx.showFilterSidebar && categoriesData && (
-                    <Filter_Sidebar categories={categoriesData} />
+                    <Filter_Sidebar
+                        categories={categoriesData}
+                        styles={stylesData}
+                        currentCategory={category}
+                    />
                 )}
                 <div className="flex gap-4">{<Page_Indicator />}</div>
                 <div className="grid grid-cols-4 gap-4 mt-4">
                     <div className="col-span-1 md:block hidden ">
                         {!pageCtx.showFilterSidebar && categoriesData && (
-                            <Filter categories={categoriesData} />
+                            <Filter
+                                categories={categoriesData}
+                                styles={stylesData}
+                                currentCategory={category}
+                            />
                         )}
                     </div>
                     <div className="md:col-span-3 col-span-4">

@@ -4,6 +4,7 @@ import { LoaderFunctionArgs } from "react-router-dom";
 import { getToken } from "./Token";
 
 const domain = import.meta.env.VITE_DOMAIN;
+console.log("domain", domain);
 
 // Create a proper query key factory
 export const productsKeys = {
@@ -36,10 +37,53 @@ const getProducts = async (category: string, page: number) => {
     return products.data;
 };
 
+// Fetcher function for products by brand
+const getProductsByBrand = async (brand: string, page: number) => {
+    const encodedBrand = brand.replace(/ /g, "%20").replace(/&/g, "%26");
+
+    const response = await axios.get(
+        `${domain}/products/brand?page=${page}&brandName=${encodedBrand}`
+    );
+    return response.data;
+};
+
+// Fetcher function for products by filters
+export type filterProps = {
+    style_ids: string[];
+    brand_id: string | null;
+    category_ids: string[];
+    product_name: string | null;
+};
+
+const getProductsByFilters = async (filter: filterProps, page: number) => {
+    const response = await axios.post(
+        `${domain}/products/search?page=${page}`,
+        {
+            category_ids: filter.category_ids,
+            style_ids: filter.style_ids,
+            brand_id: filter.brand_id,
+            product_name: filter.product_name,
+        },
+        {
+            headers: {
+                "Content-Type": "application/json",
+                accept: "application/json",
+            },
+        }
+    );
+    return response.data;
+};
+
 // Fetcher function for categories
 const getCategories = async () => {
     const categories = await axios.get(`${domain}/categories`);
     return categories.data;
+};
+
+// Fetcher function for styles
+const getStyles = async () => {
+    const styles = await axios.get(`${domain}/styles`);
+    return styles.data;
 };
 
 // Fetcher function for product details
@@ -72,6 +116,7 @@ const addProductToCart = async (data: {
             Authorization: `Bearer ${getToken()}`,
         },
     });
+    console.log("addProductToCart", response.data);
     return response.data;
 };
 
@@ -146,15 +191,6 @@ const getBrands = async () => {
     return response.data;
 };
 
-const getProductsByBrand = async (brand: string, page: number) => {
-    const encodedBrand = brand.replace(/ /g, "%20").replace(/&/g, "%26");
-
-    const response = await axios.get(
-        `${domain}/products/brand?page=${page}&brandName=${encodedBrand}`
-    );
-    return response.data;
-};
-
 // React Router loader that integrates with React Query
 export async function productsAndReviewsLoader({ params }: LoaderFunctionArgs) {
     const page = params.page ? Number(params.page) : 1;
@@ -173,6 +209,7 @@ export {
     getProductsAndReviews,
     getProducts,
     getCategories,
+    getStyles,
     getProductDetails,
     getLatestProducts,
     login,
@@ -185,4 +222,5 @@ export {
     clearCart,
     getBrands,
     getProductsByBrand,
+    getProductsByFilters,
 };
