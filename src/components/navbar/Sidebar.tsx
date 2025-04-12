@@ -49,17 +49,20 @@ const Sidebar: React.FC = () => {
                 {/* Navigation links */}
                 <nav className="mt-16 px-6 py-2">
                     <ul className="space-y-3">
-                        <li className="group">
-                            <div className="flex items-center cursor-pointer">
-                                <a className="text-gray-800 transition-colors">
-                                    Shop
-                                </a>
-                                <FontAwesomeIcon
+                        <li>
+                            {/* <div className="flex items-center cursor-pointer"> */}
+                            <Link
+                                to="/Shop/All"
+                                className="text-gray-800 hover:text-blue-600 transition-colors"
+                            >
+                                Shop
+                            </Link>
+                            {/* <FontAwesomeIcon
                                     icon={faChevronDown}
                                     className="ml-2 w-4 h-4 transform transition-transform duration-200 group-hover:rotate-180"
-                                />
-                            </div>
-                            <div className="overflow-hidden transition-all duration-300 ease-in-out max-h-0 group-hover:max-h-40">
+                                /> */}
+                            {/* </div> */}
+                            {/* <div className="overflow-hidden transition-all duration-300 ease-in-out max-h-0 group-hover:max-h-40">
                                 <ul className="mt-2 ml-4 space-y-3">
                                     <li>
                                         <Link
@@ -70,7 +73,7 @@ const Sidebar: React.FC = () => {
                                         </Link>
                                     </li>
                                 </ul>
-                            </div>
+                            </div> */}
                         </li>
                         <li>
                             <Link

@@ -68,23 +68,26 @@ const Navbar: React.FC = () => {
                         <ul className="flex items-center space-x-8">
                             <li className="relative group">
                                 <div className="peer">
-                                    <a className="text-sm text-black mr-2 cursor-pointer">
+                                    <Link
+                                        to="/Shop/All"
+                                        className="text-sm text-black"
+                                    >
                                         Shop
-                                    </a>
-                                    <FontAwesomeIcon
+                                    </Link>
+                                    {/* <FontAwesomeIcon
                                         icon={faChevronDown}
                                         className="transform group-hover:rotate-180 transition-transform duration-200"
-                                    />
+                                    /> */}
                                 </div>
 
-                                <div className="absolute hidden hover:block peer-hover:block w-48 bg-white shadow-lg rounded-md mt-0 py-2 z-50">
+                                {/* <div className="absolute hidden hover:block peer-hover:block w-48 bg-white shadow-lg rounded-md mt-0 py-2 z-50">
                                     <Link
                                         to="/Shop/All"
                                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                     >
                                         All Categories
                                     </Link>
-                                </div>
+                                </div> */}
                             </li>
                             <li>
                                 <Link
