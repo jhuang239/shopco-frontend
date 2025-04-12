@@ -5,7 +5,6 @@ import {
     faShoppingCart,
     faUser,
     faBars,
-    faChevronDown,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import Sidebar from "./Sidebar";

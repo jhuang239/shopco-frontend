@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useContext } from "react";
 import { PageContext } from "../../context/pageContext";
 import { Link } from "react-router-dom";
